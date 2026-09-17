@@ -1,0 +1,651 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0A708CA2101AF9549590F496 /* PathEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AF0EE9B1DC36D7617FC803 /* PathEditorView.swift */; };
+		0DA184A263402E651C340508 /* FinderBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9FE154A4405A997C187502 /* FinderBridge.swift */; };
+		1D0FB086D2517234E06AEA6F /* DirectoryCreatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E4FCFFBFA97006693641FD /* DirectoryCreatorTests.swift */; };
+		22BFC8B6B774A222ED871929 /* PathCompleterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0155F567A9A0DC7EDCD269C /* PathCompleterTests.swift */; };
+		27B8FAA7896E268E645CB399 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD204AAE2BCBE66E96199EBB /* Assets.xcassets */; };
+		3CD0FC36C76141CE12597991 /* PathOverlayPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B4E0348C558E7E21DDC4A2 /* PathOverlayPanel.swift */; };
+		422FCCAB45D50C751DF9F990 /* WindowGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223B9517521CBF8F5BB2A354 /* WindowGeometry.swift */; };
+		552A8FEEDFE731D1F19D37B5 /* PathCompleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8320979D042809980F0EC14A /* PathCompleter.swift */; };
+		6858C6E55D0BE253FF5445E6 /* StatusItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFBE166E61D475317ADEE4D /* StatusItemController.swift */; };
+		768B81E7488E7D46D50F4ED0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FDE758F423663808BF9B25 /* AppDelegate.swift */; };
+		8A494A753F3D53E686165E5A /* LocalFileURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DE643B8E08780C96FB0FAD /* LocalFileURL.swift */; };
+		8F9FC64F229F7AB46A03D97F /* PathResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4327620A87CB13E83E001A7 /* PathResolver.swift */; };
+		936F493B0D16B01F360368EE /* PathEditorControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35F67FAE00F19D324BC9128 /* PathEditorControls.swift */; };
+		9DEF19C02805B5651D383750 /* PathResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721C296673A5FE51BAF35D7 /* PathResolverTests.swift */; };
+		A5388ED5B42987C428A7A27B /* libPathstaCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 084CC98F285332DB302D2EE4 /* libPathstaCore.a */; };
+		A7E730F3D4202F9091969178 /* PathCompletionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48076F037472CD1C4D50FBF /* PathCompletionController.swift */; };
+		C030C9979178E5331F86333A /* DirectoryCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E15234CA51D617C9F9BD94A /* DirectoryCreator.swift */; };
+		CDC7AA74CBE7134C8771AEFF /* libPathstaCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 084CC98F285332DB302D2EE4 /* libPathstaCore.a */; };
+		D627DD02521B4413691CF7F1 /* WindowGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063B5463DDF3E6543B1700BE /* WindowGeometryTests.swift */; };
+		E3005779052C329AF4277B9F /* FinderWindowLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6FF33739907D18D1531EEB9 /* FinderWindowLocator.swift */; };
+		F88749B1410F4B52D04A24D4 /* PathstaApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E5C4F1859B14432897D935 /* PathstaApplication.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0DEEECA6B5653CCA65B6CA14 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4691BBC328A2D0739E7225C8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 26974B09B40EF3A292406497;
+			remoteInfo = PathstaCore;
+		};
+		B40CDFA777A2503BD7CDC08C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4691BBC328A2D0739E7225C8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 26974B09B40EF3A292406497;
+			remoteInfo = PathstaCore;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		063B5463DDF3E6543B1700BE /* WindowGeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowGeometryTests.swift; sourceTree = "<group>"; };
+		084CC98F285332DB302D2EE4 /* libPathstaCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPathstaCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		08DE643B8E08780C96FB0FAD /* LocalFileURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileURL.swift; sourceTree = "<group>"; };
+		09FDE758F423663808BF9B25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		12B4E0348C558E7E21DDC4A2 /* PathOverlayPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathOverlayPanel.swift; sourceTree = "<group>"; };
+		14E5C4F1859B14432897D935 /* PathstaApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathstaApplication.swift; sourceTree = "<group>"; };
+		1721C296673A5FE51BAF35D7 /* PathResolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathResolverTests.swift; sourceTree = "<group>"; };
+		1E15234CA51D617C9F9BD94A /* DirectoryCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryCreator.swift; sourceTree = "<group>"; };
+		223B9517521CBF8F5BB2A354 /* WindowGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowGeometry.swift; sourceTree = "<group>"; };
+		23E4FCFFBFA97006693641FD /* DirectoryCreatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryCreatorTests.swift; sourceTree = "<group>"; };
+		2A9FE154A4405A997C187502 /* FinderBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderBridge.swift; sourceTree = "<group>"; };
+		2D004FB4DBE249B5CAD2D2E7 /* PathstaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PathstaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AFBE166E61D475317ADEE4D /* StatusItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemController.swift; sourceTree = "<group>"; };
+		8320979D042809980F0EC14A /* PathCompleter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCompleter.swift; sourceTree = "<group>"; };
+		97355454DB2E1B582C20904D /* Pathsta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pathsta.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		97AF0EE9B1DC36D7617FC803 /* PathEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathEditorView.swift; sourceTree = "<group>"; };
+		A0155F567A9A0DC7EDCD269C /* PathCompleterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCompleterTests.swift; sourceTree = "<group>"; };
+		A6FF33739907D18D1531EEB9 /* FinderWindowLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderWindowLocator.swift; sourceTree = "<group>"; };
+		AD204AAE2BCBE66E96199EBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C35F67FAE00F19D324BC9128 /* PathEditorControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathEditorControls.swift; sourceTree = "<group>"; };
+		E4327620A87CB13E83E001A7 /* PathResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathResolver.swift; sourceTree = "<group>"; };
+		F48076F037472CD1C4D50FBF /* PathCompletionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCompletionController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4799F3694BB83D3F2919FDEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CDC7AA74CBE7134C8771AEFF /* libPathstaCore.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84A1C2B5C834B9ED96E526F8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5388ED5B42987C428A7A27B /* libPathstaCore.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		02A3339E21776ED702189180 /* PathstaCore */ = {
+			isa = PBXGroup;
+			children = (
+				1E15234CA51D617C9F9BD94A /* DirectoryCreator.swift */,
+				08DE643B8E08780C96FB0FAD /* LocalFileURL.swift */,
+				8320979D042809980F0EC14A /* PathCompleter.swift */,
+				E4327620A87CB13E83E001A7 /* PathResolver.swift */,
+				223B9517521CBF8F5BB2A354 /* WindowGeometry.swift */,
+			);
+			path = PathstaCore;
+			sourceTree = "<group>";
+		};
+		233FCF3A040A8FC5C51EF0BE /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				E689730528E6DEB7BD40F519 /* Pathsta */,
+				02A3339E21776ED702189180 /* PathstaCore */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		37758AC73E17E5E242588D8B /* PathstaTests */ = {
+			isa = PBXGroup;
+			children = (
+				23E4FCFFBFA97006693641FD /* DirectoryCreatorTests.swift */,
+				A0155F567A9A0DC7EDCD269C /* PathCompleterTests.swift */,
+				1721C296673A5FE51BAF35D7 /* PathResolverTests.swift */,
+				063B5463DDF3E6543B1700BE /* WindowGeometryTests.swift */,
+			);
+			path = PathstaTests;
+			sourceTree = "<group>";
+		};
+		694E89AE21CE455C4210015F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				37758AC73E17E5E242588D8B /* PathstaTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		6AE92705C8112C99AB95F79F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				084CC98F285332DB302D2EE4 /* libPathstaCore.a */,
+				97355454DB2E1B582C20904D /* Pathsta.app */,
+				2D004FB4DBE249B5CAD2D2E7 /* PathstaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A96726B575950902B24B7B13 = {
+			isa = PBXGroup;
+			children = (
+				BF902643CE174569E5E0F0FD /* Resources */,
+				233FCF3A040A8FC5C51EF0BE /* Sources */,
+				694E89AE21CE455C4210015F /* Tests */,
+				6AE92705C8112C99AB95F79F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BF902643CE174569E5E0F0FD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AD204AAE2BCBE66E96199EBB /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		E689730528E6DEB7BD40F519 /* Pathsta */ = {
+			isa = PBXGroup;
+			children = (
+				09FDE758F423663808BF9B25 /* AppDelegate.swift */,
+				2A9FE154A4405A997C187502 /* FinderBridge.swift */,
+				A6FF33739907D18D1531EEB9 /* FinderWindowLocator.swift */,
+				F48076F037472CD1C4D50FBF /* PathCompletionController.swift */,
+				C35F67FAE00F19D324BC9128 /* PathEditorControls.swift */,
+				97AF0EE9B1DC36D7617FC803 /* PathEditorView.swift */,
+				12B4E0348C558E7E21DDC4A2 /* PathOverlayPanel.swift */,
+				14E5C4F1859B14432897D935 /* PathstaApplication.swift */,
+				5AFBE166E61D475317ADEE4D /* StatusItemController.swift */,
+			);
+			path = Pathsta;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		231F30B6773EC6DE9F62503A /* Pathsta */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE6C619C56EBC15E2864323B /* Build configuration list for PBXNativeTarget "Pathsta" */;
+			buildPhases = (
+				9E4F39FAFF978642CF48682E /* Sources */,
+				ACA20C3E2A95601BA3569873 /* Resources */,
+				84A1C2B5C834B9ED96E526F8 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ACFDBA06492585A1C988F705 /* PBXTargetDependency */,
+			);
+			name = Pathsta;
+			packageProductDependencies = (
+			);
+			productName = Pathsta;
+			productReference = 97355454DB2E1B582C20904D /* Pathsta.app */;
+			productType = "com.apple.product-type.application";
+		};
+		26974B09B40EF3A292406497 /* PathstaCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 312F0F0CE16ACB2E2E153B3D /* Build configuration list for PBXNativeTarget "PathstaCore" */;
+			buildPhases = (
+				5D555F322E0B392DDDC9488D /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PathstaCore;
+			packageProductDependencies = (
+			);
+			productName = PathstaCore;
+			productReference = 084CC98F285332DB302D2EE4 /* libPathstaCore.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		AB9951745F4041D89A7729E3 /* PathstaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BACC6C48D9DDC749F0979E8A /* Build configuration list for PBXNativeTarget "PathstaTests" */;
+			buildPhases = (
+				22EB382129E097C8C49F09D6 /* Sources */,
+				4799F3694BB83D3F2919FDEE /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2BB3849FB3679311F0974389 /* PBXTargetDependency */,
+			);
+			name = PathstaTests;
+			packageProductDependencies = (
+			);
+			productName = PathstaTests;
+			productReference = 2D004FB4DBE249B5CAD2D2E7 /* PathstaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4691BBC328A2D0739E7225C8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					231F30B6773EC6DE9F62503A = {
+						DevelopmentTeam = K85JVL5Z98;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = CDF422BB9D95A9C97F5292B2 /* Build configuration list for PBXProject "Pathsta" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = A96726B575950902B24B7B13;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 6AE92705C8112C99AB95F79F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				26974B09B40EF3A292406497 /* PathstaCore */,
+				231F30B6773EC6DE9F62503A /* Pathsta */,
+				AB9951745F4041D89A7729E3 /* PathstaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ACA20C3E2A95601BA3569873 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27B8FAA7896E268E645CB399 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		22EB382129E097C8C49F09D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D0FB086D2517234E06AEA6F /* DirectoryCreatorTests.swift in Sources */,
+				22BFC8B6B774A222ED871929 /* PathCompleterTests.swift in Sources */,
+				9DEF19C02805B5651D383750 /* PathResolverTests.swift in Sources */,
+				D627DD02521B4413691CF7F1 /* WindowGeometryTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D555F322E0B392DDDC9488D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C030C9979178E5331F86333A /* DirectoryCreator.swift in Sources */,
+				8A494A753F3D53E686165E5A /* LocalFileURL.swift in Sources */,
+				552A8FEEDFE731D1F19D37B5 /* PathCompleter.swift in Sources */,
+				8F9FC64F229F7AB46A03D97F /* PathResolver.swift in Sources */,
+				422FCCAB45D50C751DF9F990 /* WindowGeometry.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9E4F39FAFF978642CF48682E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				768B81E7488E7D46D50F4ED0 /* AppDelegate.swift in Sources */,
+				0DA184A263402E651C340508 /* FinderBridge.swift in Sources */,
+				E3005779052C329AF4277B9F /* FinderWindowLocator.swift in Sources */,
+				A7E730F3D4202F9091969178 /* PathCompletionController.swift in Sources */,
+				936F493B0D16B01F360368EE /* PathEditorControls.swift in Sources */,
+				0A708CA2101AF9549590F496 /* PathEditorView.swift in Sources */,
+				3CD0FC36C76141CE12597991 /* PathOverlayPanel.swift in Sources */,
+				F88749B1410F4B52D04A24D4 /* PathstaApplication.swift in Sources */,
+				6858C6E55D0BE253FF5445E6 /* StatusItemController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2BB3849FB3679311F0974389 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 26974B09B40EF3A292406497 /* PathstaCore */;
+			targetProxy = B40CDFA777A2503BD7CDC08C /* PBXContainerItemProxy */;
+		};
+		ACFDBA06492585A1C988F705 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 26974B09B40EF3A292406497 /* PathstaCore */;
+			targetProxy = 0DEEECA6B5653CCA65B6CA14 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		03172C7CF44521553FC3BFEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				AUTOMATION_APPLE_EVENTS = YES;
+				CODE_SIGN_ENTITLEMENTS = Resources/Pathsta.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K85JVL5Z98;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.codevs.pathsta;
+				PRODUCT_MODULE_NAME = Pathsta;
+				PRODUCT_NAME = Pathsta;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		8C7FB4C312BC180300F075A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.codevs.pathsta.tests;
+				PRODUCT_MODULE_NAME = PathstaTests;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = singlefile;
+			};
+			name = Release;
+		};
+		9405E7124253675F67E0AC9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.codevs.pathsta.core;
+				PRODUCT_MODULE_NAME = PathstaCore;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = Debug;
+		};
+		965C3CA798B4459C7615B735 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				AUTOMATION_APPLE_EVENTS = YES;
+				CODE_SIGN_ENTITLEMENTS = Resources/Pathsta.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K85JVL5Z98;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.codevs.pathsta;
+				PRODUCT_MODULE_NAME = Pathsta;
+				PRODUCT_NAME = Pathsta;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		AF92A4397658C9B432E4E9C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		B3E3ED104D6A866D6F52FBDC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.codevs.pathsta.tests;
+				PRODUCT_MODULE_NAME = PathstaTests;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = singlefile;
+			};
+			name = Debug;
+		};
+		CD828937D3ECFAED57628366 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.codevs.pathsta.core;
+				PRODUCT_MODULE_NAME = PathstaCore;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = Release;
+		};
+		E296B3E38A8CF5985FB94874 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		312F0F0CE16ACB2E2E153B3D /* Build configuration list for PBXNativeTarget "PathstaCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9405E7124253675F67E0AC9A /* Debug */,
+				CD828937D3ECFAED57628366 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AE6C619C56EBC15E2864323B /* Build configuration list for PBXNativeTarget "Pathsta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03172C7CF44521553FC3BFEC /* Debug */,
+				965C3CA798B4459C7615B735 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BACC6C48D9DDC749F0979E8A /* Build configuration list for PBXNativeTarget "PathstaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B3E3ED104D6A866D6F52FBDC /* Debug */,
+				8C7FB4C312BC180300F075A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CDF422BB9D95A9C97F5292B2 /* Build configuration list for PBXProject "Pathsta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF92A4397658C9B432E4E9C2 /* Debug */,
+				E296B3E38A8CF5985FB94874 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4691BBC328A2D0739E7225C8 /* Project object */;
+}

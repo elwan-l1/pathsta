@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="240" viewBox="0 0 640 240" role="img" aria-labelledby="title description">
+  <title id="title">Pathsta fusilli</title>
+  <desc id="description">A simple horizontal fusilli pasta silhouette</desc>
+  <defs>
+    <mask id="fusilli" maskUnits="userSpaceOnUse" x="0" y="0" width="640" height="240">
+      <rect width="640" height="240" fill="#000"/>
+      <path fill="#fff" d="M55 34C78 16 108 14 138 25c31-21 73-18 102 2 35-22 81-19 110 2 37-20 80-19 115 2 40-20 83-13 111 11 21 18 31 47 31 78s-10 60-31 78c-28 24-71 31-111 11-35 21-78 22-115 2-29 21-75 24-110 2-29 20-71 23-102 2-30 11-60 9-83-9-23-18-33-50-32-86-1-37 9-68 32-86Z"/>
+      <g fill="none" stroke="#000" stroke-width="18" stroke-linecap="round">
+        <path d="M58 38c25 29 18 60 11 87-8 32-15 61 12 82"/>
+        <path d="M171 18c-35 28-30 62-39 96-10 42-24 78-55 103"/>
+        <path d="M286 15c-37 29-31 66-41 102-10 41-25 78-58 102"/>
+        <path d="M402 18c-38 29-32 66-42 102-10 41-25 78-59 101"/>
+        <path d="M518 26c-37 26-32 60-41 95-9 38-21 72-49 94"/>
+        <path d="M574 44c-25 25-20 51-14 77 7 29 14 57-10 82"/>
+      </g>
+    </mask>
+  </defs>
+  <rect width="640" height="240" fill="#000" mask="url(#fusilli)"/>
+</svg>
