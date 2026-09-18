@@ -20,6 +20,7 @@ fi
 require_command codesign
 require_command hdiutil
 require_command spctl
+require_command xcrun
 
 codesign --verify --strict --verbose=2 "${dmg_path}"
 if [[ "${allow_unnotarized}" != "1" ]]; then
@@ -38,6 +39,10 @@ hdiutil attach "${dmg_path}" -nobrowse -readonly -mountpoint "${mount_directory}
 mounted_app="${mount_directory}/${APP_NAME}.app"
 [[ -d "${mounted_app}" ]] || fail "Disk image does not contain ${APP_NAME}.app"
 [[ -L "${mount_directory}/Applications" ]] || fail "Disk image does not contain an Applications shortcut"
+[[ -f "${mount_directory}/.VolumeIcon.icns" ]] || fail "Disk image does not contain its volume icon"
+
+volume_attributes="$(xcrun GetFileInfo -a "${mount_directory}")"
+[[ "${volume_attributes}" == *C* ]] || fail "Disk image volume is missing its custom icon attribute"
 
 codesign --verify --deep --strict --verbose=2 "${mounted_app}"
 codesign_details="$(codesign -dv --verbose=4 "${mounted_app}" 2>&1)"

@@ -79,6 +79,8 @@ targets:
       - Sources/Pathsta
       - path: Resources/Assets.xcassets
         buildPhase: resources
+      - path: Resources/Brand/PathstaAppIcon.icon
+        buildPhase: resources
     dependencies:
       - target: PathstaCore
     entitlements:
@@ -99,7 +101,7 @@ targets:
         NSHumanReadableCopyright: Copyright © 2026 Elwan Mayencourt. All rights reserved.
     settings:
       base:
-        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_APPICON_NAME: PathstaAppIcon
         AUTOMATION_APPLE_EVENTS: YES
         CODE_SIGN_STYLE: Automatic
         CURRENT_PROJECT_VERSION: 1

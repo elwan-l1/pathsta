@@ -17,6 +17,7 @@ fi
 require_command codesign
 require_command diskutil
 require_command ditto
+require_command xcrun
 
 mkdir -p "${DISTRIBUTION_DIRECTORY}"
 temporary_directory="$(mktemp -d)"
@@ -25,6 +26,13 @@ volume_directory="${temporary_directory}/volume"
 mkdir -p "${volume_directory}"
 ditto --norsrc "${APP_PATH}" "${volume_directory}/${APP_NAME}.app"
 ln -s /Applications "${volume_directory}/Applications"
+
+volume_icon="${APP_PATH}/Contents/Resources/PathstaAppIcon.icns"
+[[ -f "${volume_icon}" ]] || fail "Built app does not contain its generated icon"
+# Finder requires both this hidden file and the volume's custom-icon flag.
+ditto --norsrc "${volume_icon}" "${volume_directory}/.VolumeIcon.icns"
+xcrun SetFile -a V "${volume_directory}/.VolumeIcon.icns"
+xcrun SetFile -a C "${volume_directory}"
 
 dmg_path="${DISTRIBUTION_DIRECTORY}/${APP_NAME}-${version}.dmg"
 rm -f "${dmg_path}"
