@@ -7,7 +7,9 @@
 <p align="center">A simple editable path bar for Finder.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/macOS-27%2B-black" alt="macOS 27 or later">
+  <a href="#install"><img src="https://img.shields.io/badge/macOS-27%2B%20Apple%20Silicon-black" alt="macOS 27 or later, Apple Silicon"></a>
+  <a href="https://github.com/elwan-l1/pathsta/actions/workflows/ci.yml"><img src="https://github.com/elwan-l1/pathsta/actions/workflows/ci.yml/badge.svg?branch=main&event=push" alt="CI status"></a>
+  <a href="https://github.com/elwan-l1/pathsta/releases"><img src="https://img.shields.io/github/v/release/elwan-l1/pathsta?label=release&color=4c8dff" alt="Latest release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License"></a>
 </p>
 
