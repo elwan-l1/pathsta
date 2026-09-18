@@ -1,0 +1,6 @@
+# GitHub documents xcode-27 as a hosted preview runner; actionlint's bundled
+# runner list can lag behind newly introduced labels.
+paths:
+  .github/workflows/*.{yml,yaml}:
+    ignore:
+      - 'label "xcode-27" is unknown'

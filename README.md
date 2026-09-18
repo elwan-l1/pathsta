@@ -28,7 +28,9 @@ Click Finder's path bar, type or paste a path and press Return. Pathsta follows 
 
 ## Install
 
-Download Pathsta from [Releases](https://github.com/elwan-l1/pathsta/releases), open it and allow Finder automation when macOS asks.
+Download Pathsta from [Releases](https://github.com/elwan-l1/pathsta/releases).
+
+Open Pathsta and allow Finder automation when macOS asks. Initial releases support Apple silicon.
 
 ## Build
 

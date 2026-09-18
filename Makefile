@@ -1,10 +1,12 @@
-.PHONY: bootstrap generate format lint build test verify open clean
+.PHONY: bootstrap generate format format-check lint lint-release build test verify ci release-dry-run open clean
 
 PROJECT := Pathsta.xcodeproj
 SCHEME := Pathsta
 ARCHITECTURE := $(shell uname -m)
 DESTINATION := platform=macOS,arch=$(ARCHITECTURE)
 DERIVED_DATA := .build/DerivedData
+VERSION := $(shell awk '$$1 == "MARKETING_VERSION:" { print $$2; exit }' project.yml)
+BUILD_NUMBER := $(shell awk '$$1 == "CURRENT_PROJECT_VERSION:" { print $$2; exit }' project.yml)
 
 bootstrap:
 	brew bundle
@@ -17,10 +19,17 @@ format:
 	swift-format format --in-place Package.swift
 	swift-format format --in-place --recursive Sources Tests
 
-lint:
+format-check:
 	swift-format lint --strict Package.swift
 	swift-format lint --strict --recursive Sources Tests
+
+lint:
+	$(MAKE) format-check
 	swiftlint lint --strict
+
+lint-release:
+	actionlint
+	shellcheck Scripts/release/*.sh
 
 build: generate
 	xcodebuild \
@@ -35,7 +44,20 @@ build: generate
 test:
 	swift test --parallel
 
-verify: format lint test
+verify: lint test
+
+release-dry-run: generate
+	Scripts/release/preflight.sh v$(VERSION)
+	ALLOW_ADHOC_SIGNING=1 SIGNING_IDENTITY=- \
+		Scripts/release/build-app.sh $(VERSION) $(BUILD_NUMBER)
+	ALLOW_ADHOC_SIGNING=1 SIGNING_IDENTITY=- \
+		Scripts/release/make-dmg.sh $(VERSION)
+	Scripts/release/package-release.sh $(VERSION)
+	ALLOW_ADHOC_SIGNING=1 ALLOW_UNNOTARIZED=1 \
+		Scripts/release/verify-distribution.sh \
+		.build/release/dist/Pathsta-$(VERSION).dmg $(VERSION) $(BUILD_NUMBER)
+
+ci: lint lint-release test release-dry-run
 
 open: generate
 	open $(PROJECT)

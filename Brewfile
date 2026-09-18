@@ -1,4 +1,5 @@
+brew "actionlint"
+brew "shellcheck"
 brew "swift-format"
 brew "swiftlint"
 brew "xcodegen"
-

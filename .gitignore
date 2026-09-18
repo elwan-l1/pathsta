@@ -6,3 +6,7 @@ build/
 *.xcresult
 *.profraw
 xcuserdata/
+*.p12
+*.p8
+*.cer
+*.certSigningRequest

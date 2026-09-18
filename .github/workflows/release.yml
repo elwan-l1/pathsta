@@ -1,0 +1,212 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]*"
+
+permissions: {}
+
+concurrency:
+  group: release-signing
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    name: Validate release tag
+    runs-on: xcode-27
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+    outputs:
+      commit: ${{ steps.release.outputs.commit }}
+      version: ${{ steps.release.outputs.version }}
+      build-number: ${{ steps.release.outputs.build-number }}
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Validate repository and tag provenance
+        id: release
+        run: |
+          set -euo pipefail
+          [[ "${GITHUB_REPOSITORY}" == "elwan-l1/pathsta" ]]
+          [[ "${GITHUB_ACTOR}" == "elwan-l1" ]]
+          [[ "${GITHUB_TRIGGERING_ACTOR}" == "elwan-l1" ]]
+          [[ "${GITHUB_REF_TYPE}" == "tag" ]]
+          [[ "${GITHUB_REF_NAME}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]
+          [[ "$(gh api "repos/${GITHUB_REPOSITORY}" --jq .visibility)" == "public" ]]
+          [[ "$(gh api \
+            -H 'X-GitHub-Api-Version: 2026-03-10' \
+            "repos/${GITHUB_REPOSITORY}/immutable-releases" \
+            --jq .enabled)" == "true" ]]
+
+          commit="$(git rev-list -n 1 "${GITHUB_REF_NAME}")"
+          git fetch origin main
+          git merge-base --is-ancestor "${commit}" origin/main
+          [[ "$(gh api "repos/${GITHUB_REPOSITORY}/commits/${commit}" --jq .commit.verification.verified)" == "true" ]]
+
+          if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
+            echo "A release already exists for ${GITHUB_REF_NAME}." >&2
+            exit 1
+          fi
+
+          version="${GITHUB_REF_NAME#v}"
+          {
+            echo "commit=${commit}"
+            echo "version=${version}"
+            echo "build-number=${GITHUB_RUN_NUMBER}"
+          } >>"${GITHUB_OUTPUT}"
+
+      - name: Verify toolchain
+        run: |
+          set -euo pipefail
+          [[ "$(xcodebuild -version | awk 'NR == 1 { print $2 }')" == 27.* ]]
+
+      - name: Install development tools
+        run: brew bundle
+
+      - name: Validate version and changelog
+        run: Scripts/release/preflight.sh "${GITHUB_REF_NAME}"
+
+      - name: Run tests and package dry run
+        run: make ci
+
+  sign-and-notarize:
+    name: Sign and notarize
+    needs: preflight
+    runs-on: xcode-27
+    timeout-minutes: 45
+    environment: release-signing
+    permissions:
+      contents: read
+    env:
+      SIGNING_CERT_P12: ${{ secrets.SIGNING_CERT_P12 }}
+      SIGNING_CERT_PASSWORD: ${{ secrets.SIGNING_CERT_PASSWORD }}
+      NOTARY_API_KEY_P8: ${{ secrets.NOTARY_API_KEY_P8 }}
+      NOTARY_KEY_ID: ${{ secrets.NOTARY_KEY_ID }}
+      NOTARY_ISSUER_ID: ${{ secrets.NOTARY_ISSUER_ID }}
+    steps:
+      - name: Check out validated commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ needs.preflight.outputs.commit }}
+          persist-credentials: false
+
+      - name: Confirm release ref is unchanged
+        run: |
+          set -euo pipefail
+          remote_commit="$(git ls-remote origin "refs/tags/${GITHUB_REF_NAME}^{}" | awk '{ print $1 }')"
+          if [[ -z "${remote_commit}" ]]; then
+            remote_commit="$(git ls-remote origin "refs/tags/${GITHUB_REF_NAME}" | awk '{ print $1 }')"
+          fi
+          [[ "${remote_commit}" == "${{ needs.preflight.outputs.commit }}" ]]
+
+      - name: Install build tools
+        run: brew install xcodegen jq
+
+      - name: Import Developer ID certificate
+        run: Scripts/release/setup-signing.sh
+
+      - name: Build and sign app
+        run: >-
+          Scripts/release/build-app.sh
+          "${{ needs.preflight.outputs.version }}"
+          "${{ needs.preflight.outputs.build-number }}"
+
+      - name: Notarize and staple app
+        run: Scripts/release/notarize.sh .build/release/Pathsta.app
+
+      - name: Create and sign disk image
+        run: Scripts/release/make-dmg.sh "${{ needs.preflight.outputs.version }}"
+
+      - name: Notarize and staple disk image
+        run: >-
+          Scripts/release/notarize.sh
+          ".build/release/dist/Pathsta-${{ needs.preflight.outputs.version }}.dmg"
+
+      - name: Package and verify release
+        run: |
+          set -euo pipefail
+          Scripts/release/package-release.sh "${{ needs.preflight.outputs.version }}"
+          Scripts/release/verify-distribution.sh \
+            ".build/release/dist/Pathsta-${{ needs.preflight.outputs.version }}.dmg" \
+            "${{ needs.preflight.outputs.version }}" \
+            "${{ needs.preflight.outputs.build-number }}"
+
+      - name: Upload short-lived release payload
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: release-${{ github.run_id }}
+          path: .build/release/dist
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+
+      - name: Remove temporary signing keychain
+        if: always()
+        run: Scripts/release/cleanup-signing.sh
+
+  publish:
+    name: Publish GitHub release
+    needs:
+      - preflight
+      - sign-and-notarize
+    runs-on: xcode-27
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out validated commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ needs.preflight.outputs.commit }}
+          persist-credentials: false
+
+      - name: Download release payload
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: release-${{ github.run_id }}
+          path: dist
+
+      - name: Verify payload and release ref
+        run: |
+          set -euo pipefail
+          (cd dist && shasum -a 256 -c SHA256SUMS)
+          remote_commit="$(git ls-remote origin "refs/tags/${GITHUB_REF_NAME}^{}" | awk '{ print $1 }')"
+          if [[ -z "${remote_commit}" ]]; then
+            remote_commit="$(git ls-remote origin "refs/tags/${GITHUB_REF_NAME}" | awk '{ print $1 }')"
+          fi
+          [[ "${remote_commit}" == "${{ needs.preflight.outputs.commit }}" ]]
+
+      - name: Create draft release
+        run: |
+          set -euo pipefail
+          version="${{ needs.preflight.outputs.version }}"
+          gh release create "${GITHUB_REF_NAME}" \
+            "dist/Pathsta-${version}.dmg" \
+            "dist/Pathsta-${version}.dSYM.zip" \
+            "dist/SHA256SUMS" \
+            --draft \
+            --verify-tag \
+            --target "${{ needs.preflight.outputs.commit }}" \
+            --title "Pathsta ${version}" \
+            --notes-file dist/release-notes.md
+
+      - name: Publish immutable release
+        run: |
+          set -euo pipefail
+          version="${{ needs.preflight.outputs.version }}"
+          if [[ "${version}" == *-* ]]; then
+            gh release edit "${GITHUB_REF_NAME}" --draft=false --prerelease
+          else
+            gh release edit "${GITHUB_REF_NAME}" --draft=false --latest
+          fi
+          Scripts/release/verify-immutable-release.sh "${GITHUB_REF_NAME}"
