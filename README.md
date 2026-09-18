@@ -7,7 +7,7 @@
 <p align="center">A simple editable path bar for Finder.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/macOS-14%2B-black" alt="macOS 14 or later">
+  <img src="https://img.shields.io/badge/macOS-27%2B-black" alt="macOS 27 or later">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License"></a>
 </p>
 
@@ -17,7 +17,7 @@
 
 Click Finder's path bar, type or paste a path and press Return. Pathsta follows the active Finder window, supports Tab completion and stays out of the way when you click elsewhere.
 
-> **⚠ Compatibility:** Pathsta has currently been tested only on macOS 27. Finder's interface and accessibility behavior can differ between macOS releases, so older versions may have edge cases or not work yet. Bug reports and contributions are welcome.
+Pathsta requires macOS 27 or later. The reusable core remains tested on macOS 14, but the Finder integration and interface are supported only on macOS 27 and later.
 
 ## Features
 
@@ -32,9 +32,24 @@ Download Pathsta from [Releases](https://github.com/elwan-l1/pathsta/releases).
 
 Open Pathsta and allow Finder automation when macOS asks. Initial releases support Apple silicon.
 
+### Command-line diagnostics
+
+The app executable also exposes two small, supported diagnostic commands:
+
+```sh
+/Applications/Pathsta.app/Contents/MacOS/Pathsta --probe
+/Applications/Pathsta.app/Contents/MacOS/Pathsta --navigate "/absolute/folder/path"
+```
+
+`--probe` prints Finder's current local directory. `--navigate` opens the supplied existing directory in Finder. Both return a nonzero status and write an explanation to standard error on failure; `--help` prints the complete usage.
+
+### Security and privacy
+
+Pathsta uses Hardened Runtime and requests only Finder Automation permission. It is deliberately not App Sandbox-enabled because its core purpose is navigating to arbitrary Finder paths. Directory reads and folder creation therefore run with the signed-in user's normal filesystem permissions. Folder creation is limited to one missing leaf beneath an existing directory and never creates intermediate folders.
+
 ## Build
 
-Requires macOS 14+, Xcode 27+ and Homebrew.
+Building the app requires macOS 27+, Xcode 27+ and Homebrew. Core package tests also run on macOS 14.
 
 ```sh
 make bootstrap

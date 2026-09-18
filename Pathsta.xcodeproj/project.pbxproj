@@ -9,25 +9,34 @@
 /* Begin PBXBuildFile section */
 		0A708CA2101AF9549590F496 /* PathEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AF0EE9B1DC36D7617FC803 /* PathEditorView.swift */; };
 		0DA184A263402E651C340508 /* FinderBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9FE154A4405A997C187502 /* FinderBridge.swift */; };
+		1A1470A7CF11BCC7A14BC085 /* PathEditorViewSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF1603217B35D4542FC6BB8 /* PathEditorViewSmokeTests.swift */; };
 		1D0FB086D2517234E06AEA6F /* DirectoryCreatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E4FCFFBFA97006693641FD /* DirectoryCreatorTests.swift */; };
 		22BFC8B6B774A222ED871929 /* PathCompleterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0155F567A9A0DC7EDCD269C /* PathCompleterTests.swift */; };
 		27B8FAA7896E268E645CB399 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD204AAE2BCBE66E96199EBB /* Assets.xcassets */; };
+		29158424D54A5B364437AEED /* PathstaCommandLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674E5D62C81A6EF89E3EE3B2 /* PathstaCommandLine.swift */; };
 		3CD0FC36C76141CE12597991 /* PathOverlayPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B4E0348C558E7E21DDC4A2 /* PathOverlayPanel.swift */; };
 		422FCCAB45D50C751DF9F990 /* WindowGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223B9517521CBF8F5BB2A354 /* WindowGeometry.swift */; };
 		552A8FEEDFE731D1F19D37B5 /* PathCompleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8320979D042809980F0EC14A /* PathCompleter.swift */; };
+		5F7EFB786BBBDDB2DFDAE836 /* PathstaPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76739E3AD0D5A483E09774 /* PathstaPreferences.swift */; };
+		6485A6F258E8323F05AF1926 /* FinderAutomationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F11AB2DF222C5554D51A2E /* FinderAutomationTests.swift */; };
 		6858C6E55D0BE253FF5445E6 /* StatusItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFBE166E61D475317ADEE4D /* StatusItemController.swift */; };
 		7462AFEF27216AAC3AEEFEBA /* PathstaAppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 5342884E228F4A44DD01FD3F /* PathstaAppIcon.icon */; };
+		761B582EB0A62922C305807D /* FinderAutomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FC93175E7099E8F6CE40EE /* FinderAutomation.swift */; };
 		768B81E7488E7D46D50F4ED0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FDE758F423663808BF9B25 /* AppDelegate.swift */; };
 		8A494A753F3D53E686165E5A /* LocalFileURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DE643B8E08780C96FB0FAD /* LocalFileURL.swift */; };
+		8F7C821F0CE95BD2FDE48215 /* PathCompletionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868822C747A56277AB2F175F /* PathCompletionControllerTests.swift */; };
 		8F9FC64F229F7AB46A03D97F /* PathResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4327620A87CB13E83E001A7 /* PathResolver.swift */; };
 		936F493B0D16B01F360368EE /* PathEditorControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35F67FAE00F19D324BC9128 /* PathEditorControls.swift */; };
 		9DEF19C02805B5651D383750 /* PathResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721C296673A5FE51BAF35D7 /* PathResolverTests.swift */; };
+		A45422B203DFD5BACB554D16 /* PathstaCommandLineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E01D1EB9F91B70A0466F978 /* PathstaCommandLineTests.swift */; };
 		A5388ED5B42987C428A7A27B /* libPathstaCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 084CC98F285332DB302D2EE4 /* libPathstaCore.a */; };
 		A7E730F3D4202F9091969178 /* PathCompletionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48076F037472CD1C4D50FBF /* PathCompletionController.swift */; };
+		B2210289FE0C75658403C0EC /* FinderBridgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F4F4EC3DF9FE0D03F8DEB4 /* FinderBridgeTests.swift */; };
 		C030C9979178E5331F86333A /* DirectoryCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E15234CA51D617C9F9BD94A /* DirectoryCreator.swift */; };
 		CDC7AA74CBE7134C8771AEFF /* libPathstaCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 084CC98F285332DB302D2EE4 /* libPathstaCore.a */; };
 		D627DD02521B4413691CF7F1 /* WindowGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063B5463DDF3E6543B1700BE /* WindowGeometryTests.swift */; };
 		E3005779052C329AF4277B9F /* FinderWindowLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6FF33739907D18D1531EEB9 /* FinderWindowLocator.swift */; };
+		E349668CC08AF105428FDE97 /* PathstaPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79034D02969E891810E63DA /* PathstaPreferencesTests.swift */; };
 		F88749B1410F4B52D04A24D4 /* PathstaApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E5C4F1859B14432897D935 /* PathstaApplication.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +47,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 26974B09B40EF3A292406497;
 			remoteInfo = PathstaCore;
+		};
+		7AC51F99AFD26A40E07B298C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4691BBC328A2D0739E7225C8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 231F30B6773EC6DE9F62503A;
+			remoteInfo = Pathsta;
 		};
 		B40CDFA777A2503BD7CDC08C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -53,6 +69,7 @@
 		084CC98F285332DB302D2EE4 /* libPathstaCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPathstaCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		08DE643B8E08780C96FB0FAD /* LocalFileURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileURL.swift; sourceTree = "<group>"; };
 		09FDE758F423663808BF9B25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0DF1603217B35D4542FC6BB8 /* PathEditorViewSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathEditorViewSmokeTests.swift; sourceTree = "<group>"; };
 		12B4E0348C558E7E21DDC4A2 /* PathOverlayPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathOverlayPanel.swift; sourceTree = "<group>"; };
 		14E5C4F1859B14432897D935 /* PathstaApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathstaApplication.swift; sourceTree = "<group>"; };
 		1721C296673A5FE51BAF35D7 /* PathResolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathResolverTests.swift; sourceTree = "<group>"; };
@@ -62,15 +79,24 @@
 		2A9FE154A4405A997C187502 /* FinderBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderBridge.swift; sourceTree = "<group>"; };
 		2D004FB4DBE249B5CAD2D2E7 /* PathstaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PathstaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5342884E228F4A44DD01FD3F /* PathstaAppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper.icon; path = PathstaAppIcon.icon; sourceTree = "<group>"; };
+		56F4F4EC3DF9FE0D03F8DEB4 /* FinderBridgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderBridgeTests.swift; sourceTree = "<group>"; };
 		5AFBE166E61D475317ADEE4D /* StatusItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemController.swift; sourceTree = "<group>"; };
+		61F11AB2DF222C5554D51A2E /* FinderAutomationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderAutomationTests.swift; sourceTree = "<group>"; };
+		674E5D62C81A6EF89E3EE3B2 /* PathstaCommandLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathstaCommandLine.swift; sourceTree = "<group>"; };
 		8320979D042809980F0EC14A /* PathCompleter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCompleter.swift; sourceTree = "<group>"; };
+		868822C747A56277AB2F175F /* PathCompletionControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCompletionControllerTests.swift; sourceTree = "<group>"; };
+		87C2C8BEF80F8C95EC1D2424 /* PathstaAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PathstaAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97355454DB2E1B582C20904D /* Pathsta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pathsta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97AF0EE9B1DC36D7617FC803 /* PathEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathEditorView.swift; sourceTree = "<group>"; };
+		9E01D1EB9F91B70A0466F978 /* PathstaCommandLineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathstaCommandLineTests.swift; sourceTree = "<group>"; };
 		A0155F567A9A0DC7EDCD269C /* PathCompleterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCompleterTests.swift; sourceTree = "<group>"; };
 		A6FF33739907D18D1531EEB9 /* FinderWindowLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderWindowLocator.swift; sourceTree = "<group>"; };
 		AD204AAE2BCBE66E96199EBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B9FC93175E7099E8F6CE40EE /* FinderAutomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderAutomation.swift; sourceTree = "<group>"; };
 		C35F67FAE00F19D324BC9128 /* PathEditorControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathEditorControls.swift; sourceTree = "<group>"; };
+		CE76739E3AD0D5A483E09774 /* PathstaPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathstaPreferences.swift; sourceTree = "<group>"; };
 		E4327620A87CB13E83E001A7 /* PathResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathResolver.swift; sourceTree = "<group>"; };
+		E79034D02969E891810E63DA /* PathstaPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathstaPreferencesTests.swift; sourceTree = "<group>"; };
 		F48076F037472CD1C4D50FBF /* PathCompletionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCompletionController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,9 +124,12 @@
 			isa = PBXGroup;
 			children = (
 				1E15234CA51D617C9F9BD94A /* DirectoryCreator.swift */,
+				B9FC93175E7099E8F6CE40EE /* FinderAutomation.swift */,
 				08DE643B8E08780C96FB0FAD /* LocalFileURL.swift */,
 				8320979D042809980F0EC14A /* PathCompleter.swift */,
 				E4327620A87CB13E83E001A7 /* PathResolver.swift */,
+				674E5D62C81A6EF89E3EE3B2 /* PathstaCommandLine.swift */,
+				CE76739E3AD0D5A483E09774 /* PathstaPreferences.swift */,
 				223B9517521CBF8F5BB2A354 /* WindowGeometry.swift */,
 			);
 			path = PathstaCore;
@@ -119,16 +148,30 @@
 			isa = PBXGroup;
 			children = (
 				23E4FCFFBFA97006693641FD /* DirectoryCreatorTests.swift */,
+				61F11AB2DF222C5554D51A2E /* FinderAutomationTests.swift */,
 				A0155F567A9A0DC7EDCD269C /* PathCompleterTests.swift */,
 				1721C296673A5FE51BAF35D7 /* PathResolverTests.swift */,
+				9E01D1EB9F91B70A0466F978 /* PathstaCommandLineTests.swift */,
+				E79034D02969E891810E63DA /* PathstaPreferencesTests.swift */,
 				063B5463DDF3E6543B1700BE /* WindowGeometryTests.swift */,
 			);
 			path = PathstaTests;
 			sourceTree = "<group>";
 		};
+		3E4977EACA5C75E048EC778A /* PathstaAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				56F4F4EC3DF9FE0D03F8DEB4 /* FinderBridgeTests.swift */,
+				868822C747A56277AB2F175F /* PathCompletionControllerTests.swift */,
+				0DF1603217B35D4542FC6BB8 /* PathEditorViewSmokeTests.swift */,
+			);
+			path = PathstaAppTests;
+			sourceTree = "<group>";
+		};
 		694E89AE21CE455C4210015F /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				3E4977EACA5C75E048EC778A /* PathstaAppTests */,
 				37758AC73E17E5E242588D8B /* PathstaTests */,
 			);
 			path = Tests;
@@ -139,6 +182,7 @@
 			children = (
 				084CC98F285332DB302D2EE4 /* libPathstaCore.a */,
 				97355454DB2E1B582C20904D /* Pathsta.app */,
+				87C2C8BEF80F8C95EC1D2424 /* PathstaAppTests.xctest */,
 				2D004FB4DBE249B5CAD2D2E7 /* PathstaTests.xctest */,
 			);
 			name = Products;
@@ -227,6 +271,24 @@
 			productReference = 084CC98F285332DB302D2EE4 /* libPathstaCore.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		97BD3770DC3BA7FA982D0F27 /* PathstaAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77F5C81CD4FD18C126AAFB79 /* Build configuration list for PBXNativeTarget "PathstaAppTests" */;
+			buildPhases = (
+				DEDC0ABA308FB4FA8EF07DAB /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9EEC17744AD3E2E462C42B9C /* PBXTargetDependency */,
+			);
+			name = PathstaAppTests;
+			packageProductDependencies = (
+			);
+			productName = PathstaAppTests;
+			productReference = 87C2C8BEF80F8C95EC1D2424 /* PathstaAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		AB9951745F4041D89A7729E3 /* PathstaTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BACC6C48D9DDC749F0979E8A /* Build configuration list for PBXNativeTarget "PathstaTests" */;
@@ -278,6 +340,7 @@
 				26974B09B40EF3A292406497 /* PathstaCore */,
 				231F30B6773EC6DE9F62503A /* Pathsta */,
 				AB9951745F4041D89A7729E3 /* PathstaTests */,
+				97BD3770DC3BA7FA982D0F27 /* PathstaAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -300,8 +363,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D0FB086D2517234E06AEA6F /* DirectoryCreatorTests.swift in Sources */,
+				6485A6F258E8323F05AF1926 /* FinderAutomationTests.swift in Sources */,
 				22BFC8B6B774A222ED871929 /* PathCompleterTests.swift in Sources */,
 				9DEF19C02805B5651D383750 /* PathResolverTests.swift in Sources */,
+				A45422B203DFD5BACB554D16 /* PathstaCommandLineTests.swift in Sources */,
+				E349668CC08AF105428FDE97 /* PathstaPreferencesTests.swift in Sources */,
 				D627DD02521B4413691CF7F1 /* WindowGeometryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -311,9 +377,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C030C9979178E5331F86333A /* DirectoryCreator.swift in Sources */,
+				761B582EB0A62922C305807D /* FinderAutomation.swift in Sources */,
 				8A494A753F3D53E686165E5A /* LocalFileURL.swift in Sources */,
 				552A8FEEDFE731D1F19D37B5 /* PathCompleter.swift in Sources */,
 				8F9FC64F229F7AB46A03D97F /* PathResolver.swift in Sources */,
+				29158424D54A5B364437AEED /* PathstaCommandLine.swift in Sources */,
+				5F7EFB786BBBDDB2DFDAE836 /* PathstaPreferences.swift in Sources */,
 				422FCCAB45D50C751DF9F990 /* WindowGeometry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,6 +403,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DEDC0ABA308FB4FA8EF07DAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2210289FE0C75658403C0EC /* FinderBridgeTests.swift in Sources */,
+				8F7C821F0CE95BD2FDE48215 /* PathCompletionControllerTests.swift in Sources */,
+				1A1470A7CF11BCC7A14BC085 /* PathEditorViewSmokeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -341,6 +420,11 @@
 			isa = PBXTargetDependency;
 			target = 26974B09B40EF3A292406497 /* PathstaCore */;
 			targetProxy = B40CDFA777A2503BD7CDC08C /* PBXContainerItemProxy */;
+		};
+		9EEC17744AD3E2E462C42B9C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 231F30B6773EC6DE9F62503A /* Pathsta */;
+			targetProxy = 7AC51F99AFD26A40E07B298C /* PBXContainerItemProxy */;
 		};
 		ACFDBA06492585A1C988F705 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -367,6 +451,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -376,6 +461,26 @@
 				PRODUCT_MODULE_NAME = Pathsta;
 				PRODUCT_NAME = Pathsta;
 				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		35D509FFAA60F6F33BE91FCF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.codevs.pathsta.app-tests";
+				PRODUCT_MODULE_NAME = PathstaAppTests;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = singlefile;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pathsta.app/Contents/MacOS/Pathsta";
 			};
 			name = Debug;
 		};
@@ -434,6 +539,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -618,6 +724,26 @@
 			};
 			name = Release;
 		};
+		FD294E6F2E3569A82490375E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.codevs.pathsta.app-tests";
+				PRODUCT_MODULE_NAME = PathstaAppTests;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = singlefile;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pathsta.app/Contents/MacOS/Pathsta";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -626,6 +752,15 @@
 			buildConfigurations = (
 				9405E7124253675F67E0AC9A /* Debug */,
 				CD828937D3ECFAED57628366 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		77F5C81CD4FD18C126AAFB79 /* Build configuration list for PBXNativeTarget "PathstaAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				35D509FFAA60F6F33BE91FCF /* Debug */,
+				FD294E6F2E3569A82490375E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

@@ -6,9 +6,23 @@ import PathstaCore
 final class AppDelegate: NSObject, NSApplicationDelegate, PathEditorViewDelegate,
   StatusItemControllerDelegate
 {
-  private enum PreferenceKey {
-    static let allowsDirectoryCreation = "allowsDirectoryCreation"
-    static let playsErrorSound = "playsErrorSound"
+  private enum PollingMode {
+    case idle
+    case interactive
+
+    var interval: TimeInterval {
+      switch self {
+      case .idle: 0.75
+      case .interactive: 0.12
+      }
+    }
+
+    var finderStateStride: Int {
+      switch self {
+      case .idle: 1
+      case .interactive: 2
+      }
+    }
   }
 
   private static let logger = Logger(
@@ -21,6 +35,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PathEditorViewDelegate
   private let locator = FinderWindowLocator()
   private let panel = PathOverlayPanel()
   private let pathEditor = PathEditorView()
+  private let preferences = PathstaPreferences()
 
   private var pollTimer: Timer?
   private var globalMouseMonitor: Any?
@@ -30,6 +45,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PathEditorViewDelegate
   private var currentDirectory: URL?
   private var sidebarWidth: CGFloat = 0
   private var pollTick = 0
+  private var pollingMode: PollingMode?
 
   func applicationDidFinishLaunching(_ notification: Notification) {
     configureProcessLifetime()
@@ -37,7 +53,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PathEditorViewDelegate
     configureOverlay()
     configureStatusItem()
     observeActiveApplication()
-    startPolling()
+    startPolling(mode: .idle)
     installGlobalMouseMonitor()
     updateActiveApplication(forcePath: true)
     Self.logger.info("Pathsta is ready and waiting for Finder")
@@ -68,16 +84,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PathEditorViewDelegate
     case .failure(let error):
       pathEditor.rejectNavigation(message: error.localizedDescription)
     case .success(let directory):
-      navigate(to: directory, createdDirectory: true)
+      navigate(
+        to: directory.url,
+        fileReferenceData: directory.fileReferenceData,
+        createdDirectory: true
+      )
     }
   }
 
   func pathEditorDidBeginEditing() {
-    startPolling()
+    startPolling(mode: .interactive)
     Self.logger.debug("Path editor opened")
   }
 
   func pathEditorDidEndEditing() {
+    startPolling(mode: .idle)
     Self.logger.debug("Path editor closed")
     if NSWorkspace.shared.frontmostApplication?.bundleIdentifier != finderBundleIdentifier {
       finderApplication?.activate()
@@ -97,12 +118,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PathEditorViewDelegate
 
   func statusItemDidSetErrorSoundEnabled(_ isEnabled: Bool) {
     pathEditor.playsErrorSound = isEnabled
-    UserDefaults.standard.set(isEnabled, forKey: PreferenceKey.playsErrorSound)
+    preferences.playsErrorSound = isEnabled
   }
 
   func statusItemDidSetDirectoryCreationEnabled(_ isEnabled: Bool) {
     pathEditor.allowsDirectoryCreation = isEnabled
-    UserDefaults.standard.set(isEnabled, forKey: PreferenceKey.allowsDirectoryCreation)
+    preferences.allowsDirectoryCreation = isEnabled
   }
 
   @objc private func activeApplicationChanged(_ notification: Notification) {
@@ -121,16 +142,8 @@ extension AppDelegate {
   }
 
   private func configurePreferences() {
-    UserDefaults.standard.register(defaults: [
-      PreferenceKey.allowsDirectoryCreation: true,
-      PreferenceKey.playsErrorSound: true,
-    ])
-    pathEditor.playsErrorSound = UserDefaults.standard.bool(
-      forKey: PreferenceKey.playsErrorSound
-    )
-    pathEditor.allowsDirectoryCreation = UserDefaults.standard.bool(
-      forKey: PreferenceKey.allowsDirectoryCreation
-    )
+    pathEditor.playsErrorSound = preferences.playsErrorSound
+    pathEditor.allowsDirectoryCreation = preferences.allowsDirectoryCreation
   }
 
   private func configureOverlay() {
@@ -155,17 +168,21 @@ extension AppDelegate {
     )
   }
 
-  private func startPolling() {
-    guard pollTimer == nil else {
+  private func startPolling(mode: PollingMode) {
+    guard pollingMode != mode || pollTimer == nil else {
       return
     }
 
+    pollTimer?.invalidate()
+    pollingMode = mode
+    pollTick = 0
     // Finder emits no public notification for path or sidebar-width changes.
-    let timer = Timer(timeInterval: 0.12, repeats: true) { [weak self] _ in
+    let timer = Timer(timeInterval: mode.interval, repeats: true) { [weak self] _ in
       MainActor.assumeIsolated {
         self?.updateActiveApplication(forcePath: false)
       }
     }
+    timer.tolerance = mode.interval * 0.15
     RunLoop.main.add(timer, forMode: .common)
     pollTimer = timer
   }
@@ -250,8 +267,8 @@ extension AppDelegate {
     }
 
     pollTick += 1
-    // Geometry stays responsive at 120 ms; AppleScript state is sampled at half that frequency.
-    if forcePath || pollTick.isMultiple(of: 2) {
+    let finderStateStride = pollingMode?.finderStateStride ?? 1
+    if forcePath || pollTick.isMultiple(of: finderStateStride) {
       updateFinderState()
     }
 
@@ -301,12 +318,18 @@ extension AppDelegate {
     }
   }
 
-  private func navigate(to directory: URL, createdDirectory: Bool) {
-    switch bridge.navigate(to: directory) {
-    case .success:
-      currentDirectory = directory
-      pathEditor.finishNavigation(path: directory)
-      Self.logger.debug("Finder navigation succeeded: \(directory.path, privacy: .private)")
+  private func navigate(
+    to directory: URL,
+    fileReferenceData: Data? = nil,
+    createdDirectory: Bool
+  ) {
+    switch bridge.navigate(to: directory, fileReferenceData: fileReferenceData) {
+    case .success(let navigatedDirectory):
+      currentDirectory = navigatedDirectory
+      pathEditor.finishNavigation(path: navigatedDirectory)
+      Self.logger.debug(
+        "Finder navigation succeeded: \(navigatedDirectory.path, privacy: .private)"
+      )
     case .failure(let error):
       let message =
         createdDirectory

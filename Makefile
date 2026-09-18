@@ -1,4 +1,4 @@
-.PHONY: bootstrap generate format format-check lint lint-release build test verify ci release-dry-run open clean
+.PHONY: bootstrap generate format format-check lint lint-release build test test-app verify ci release-dry-run open clean
 
 PROJECT := Pathsta.xcodeproj
 SCHEME := Pathsta
@@ -44,7 +44,18 @@ build: generate
 test:
 	swift test --parallel
 
-verify: lint test
+test-app: generate
+	xcodebuild \
+		-project $(PROJECT) \
+		-scheme $(SCHEME) \
+		-configuration Debug \
+		-destination '$(DESTINATION)' \
+		-derivedDataPath $(DERIVED_DATA) \
+		CODE_SIGNING_ALLOWED=NO \
+		-only-testing:PathstaAppTests \
+		test
+
+verify: lint test test-app
 
 release-dry-run: generate
 	Scripts/release/preflight.sh v$(VERSION)
@@ -57,7 +68,7 @@ release-dry-run: generate
 		Scripts/release/verify-distribution.sh \
 		.build/release/dist/Pathsta-$(VERSION).dmg $(VERSION) $(BUILD_NUMBER)
 
-ci: lint lint-release test release-dry-run
+ci: verify lint-release release-dry-run
 
 open: generate
 	open $(PROJECT)

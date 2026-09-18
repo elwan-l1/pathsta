@@ -109,6 +109,7 @@ targets:
         ENABLE_HARDENED_RUNTIME: YES
         GENERATE_INFOPLIST_FILE: NO
         MARKETING_VERSION: 1.0.0
+        MACOSX_DEPLOYMENT_TARGET: "27.0"
         PRODUCT_BUNDLE_IDENTIFIER: ch.codevs.pathsta
         PRODUCT_MODULE_NAME: Pathsta
         PRODUCT_NAME: Pathsta
@@ -127,12 +128,28 @@ targets:
         PRODUCT_MODULE_NAME: PathstaTests
         SWIFT_COMPILATION_MODE: singlefile
 
+  PathstaAppTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - Tests/PathstaAppTests
+    dependencies:
+      - target: Pathsta
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        MACOSX_DEPLOYMENT_TARGET: "27.0"
+        PRODUCT_BUNDLE_IDENTIFIER: ch.codevs.pathsta.app-tests
+        PRODUCT_MODULE_NAME: PathstaAppTests
+        SWIFT_COMPILATION_MODE: singlefile
+
 schemes:
   Pathsta:
     build:
       targets:
         Pathsta: all
         PathstaCore: all
+        PathstaAppTests: [test]
         PathstaTests: [test]
     run:
       config: Debug
@@ -140,6 +157,7 @@ schemes:
       config: Debug
       gatherCoverageData: true
       targets:
+        - PathstaAppTests
         - PathstaTests
     archive:
       config: Release

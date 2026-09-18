@@ -139,6 +139,7 @@ final class PathEditorView: NSView, NSTextFieldDelegate {
   }
 
   func controlTextDidEndEditing(_ notification: Notification) {
+    completionController.cancel()
     editing = false
     editorVisible = false
     editorBackgroundView.isHidden = true

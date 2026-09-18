@@ -1,6 +1,7 @@
 import Foundation
-import PathstaCore
 import Testing
+
+@testable import PathstaCore
 
 @Suite("Safe directory creation")
 struct DirectoryCreatorTests {
@@ -13,7 +14,7 @@ struct DirectoryCreatorTests {
       ).get()
       var isDirectory = ObjCBool(false)
       let exists = FileManager.default.fileExists(
-        atPath: created.path,
+        atPath: created.url.path,
         isDirectory: &isDirectory
       )
       #expect(exists)
@@ -47,6 +48,112 @@ struct DirectoryCreatorTests {
         Issue.record("A dangling symbolic link was replaced: \(result)")
         return
       }
+    }
+  }
+
+  @Test("Creates beneath the opened parent when its path is replaced")
+  func resistsParentReplacement() throws {
+    try withTemporaryDirectory { root in
+      let parent = root.appending(path: "Parent", directoryHint: .isDirectory)
+      let movedParent = root.appending(path: "MovedParent", directoryHint: .isDirectory)
+      try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: false)
+
+      let result = DirectoryCreator.create(
+        "Parent/Created",
+        relativeTo: root,
+        fileManager: .default,
+        beforeCreatingLeaf: {
+          try FileManager.default.moveItem(at: parent, to: movedParent)
+          try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: false)
+        }
+      )
+
+      let created = try result.get()
+      let createdPath = created.url
+      #expect(createdPath.lastPathComponent == "Created")
+      #expect(try fileNumber(createdPath.deletingLastPathComponent()) == fileNumber(movedParent))
+      #expect(FileManager.default.fileExists(atPath: createdPath.path))
+      #expect(
+        !FileManager.default.fileExists(
+          atPath: parent.appending(path: "Created", directoryHint: .isDirectory).path
+        )
+      )
+    }
+  }
+
+  @Test("Returns a stable identity for the created directory")
+  func returnsStableCreatedDirectoryIdentity() throws {
+    try withTemporaryDirectory { root in
+      let parent = root.appending(path: "Parent", directoryHint: .isDirectory)
+      let movedParent = root.appending(path: "MovedParent", directoryHint: .isDirectory)
+      try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: false)
+
+      let created = try DirectoryCreator.create("Parent/Created", relativeTo: root).get()
+      try FileManager.default.moveItem(at: parent, to: movedParent)
+      try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: false)
+      try FileManager.default.createDirectory(
+        at: parent.appending(path: "Created", directoryHint: .isDirectory),
+        withIntermediateDirectories: false
+      )
+
+      let resolved = try #require(created.resolvedURL())
+      let expected = movedParent.appending(path: "Created", directoryHint: .isDirectory)
+      #expect(try fileNumber(resolved) == fileNumber(expected))
+    }
+  }
+
+  @Test("Reports conflicts beneath the descriptor-bound parent")
+  func reportsRacedConflictLocation() throws {
+    try withTemporaryDirectory { root in
+      let parent = root.appending(path: "Parent", directoryHint: .isDirectory)
+      let movedParent = root.appending(path: "MovedParent", directoryHint: .isDirectory)
+      try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: false)
+
+      let result = DirectoryCreator.create(
+        "Parent/Created",
+        relativeTo: root,
+        fileManager: .default,
+        beforeCreatingLeaf: {
+          try FileManager.default.moveItem(at: parent, to: movedParent)
+          try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: false)
+          try FileManager.default.createDirectory(
+            at: movedParent.appending(path: "Created", directoryHint: .isDirectory),
+            withIntermediateDirectories: false
+          )
+        }
+      )
+
+      guard case .failure(.alreadyExists(let path)) = result else {
+        Issue.record("The descriptor-bound conflict was not reported: \(result)")
+        return
+      }
+      #expect(
+        try fileNumber(URL(filePath: path, directoryHint: .isDirectory))
+          == fileNumber(movedParent.appending(path: "Created", directoryHint: .isDirectory))
+      )
+    }
+  }
+
+  @Test("Creates beneath a parent reached through a symbolic link")
+  func followsExistingParentSymbolicLink() throws {
+    try withTemporaryDirectory { root in
+      let actualParent = root.appending(path: "Actual", directoryHint: .isDirectory)
+      let linkedParent = root.appending(path: "Linked", directoryHint: .isDirectory)
+      try FileManager.default.createDirectory(
+        at: actualParent,
+        withIntermediateDirectories: false
+      )
+      try FileManager.default.createSymbolicLink(
+        at: linkedParent,
+        withDestinationURL: actualParent
+      )
+
+      let created = try DirectoryCreator.create(
+        "Linked/Created",
+        relativeTo: root
+      ).get()
+      #expect(try fileNumber(created.url.deletingLastPathComponent()) == fileNumber(actualParent))
+      #expect(FileManager.default.fileExists(atPath: created.url.path))
     }
   }
 
@@ -85,4 +192,8 @@ private func withTemporaryDirectory(_ operation: (URL) throws -> Void) throws {
   try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
   defer { try? FileManager.default.removeItem(at: root) }
   try operation(root)
+}
+
+private func fileNumber(_ url: URL) throws -> NSNumber? {
+  try FileManager.default.attributesOfItem(atPath: url.path)[.systemFileNumber] as? NSNumber
 }

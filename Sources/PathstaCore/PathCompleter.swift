@@ -7,8 +7,12 @@ public enum PathCompleter {
     for text: String,
     selection: NSRange,
     relativeTo currentDirectory: URL?,
+    maximumResults: Int = 200,
     fileManager: FileManager = .default
   ) -> [String] {
+    guard maximumResults > 0, !Task.isCancelled else {
+      return []
+    }
     let source = text as NSString
     let selectionStart = min(max(0, selection.location), source.length)
     let selectionEnd = min(max(selectionStart, NSMaxRange(selection)), source.length)
@@ -25,28 +29,68 @@ public enum PathCompleter {
       return []
     }
 
-    let options: FileManager.DirectoryEnumerationOptions =
-      componentPrefix.hasPrefix(".") ? [] : [.skipsHiddenFiles]
+    var options: FileManager.DirectoryEnumerationOptions = [.skipsSubdirectoryDescendants]
+    if !componentPrefix.hasPrefix(".") {
+      options.insert(.skipsHiddenFiles)
+    }
+    var enumerationFailed = false
     guard
-      let children = try? fileManager.contentsOfDirectory(
+      let children = fileManager.enumerator(
         at: parentDirectory,
         includingPropertiesForKeys: nil,
-        options: options
+        options: options,
+        errorHandler: { _, _ in
+          enumerationFailed = true
+          return false
+        }
       )
     else {
       return []
     }
 
-    return children.compactMap { child in
-      completion(
-        for: child,
-        componentPrefix: componentPrefix,
-        textBeforeComponent: textBeforeComponent,
-        suffix: suffix,
-        fileManager: fileManager
-      )
+    var completions: [String] = []
+    for case let child as URL in children {
+      guard !Task.isCancelled else {
+        return []
+      }
+      guard
+        let candidate = completion(
+          for: child,
+          componentPrefix: componentPrefix,
+          textBeforeComponent: textBeforeComponent,
+          suffix: suffix,
+          fileManager: fileManager
+        )
+      else {
+        continue
+      }
+      insert(candidate, into: &completions, limit: maximumResults)
     }
-    .sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+    guard !enumerationFailed, !Task.isCancelled else {
+      return []
+    }
+    return completions
+  }
+
+  private static func insert(_ candidate: String, into results: inout [String], limit: Int) {
+    var lowerBound = 0
+    var upperBound = results.count
+    while lowerBound < upperBound {
+      let index = lowerBound + (upperBound - lowerBound) / 2
+      if results[index].localizedStandardCompare(candidate) == .orderedAscending {
+        lowerBound = index + 1
+      } else {
+        upperBound = index
+      }
+    }
+
+    guard lowerBound < limit else {
+      return
+    }
+    results.insert(candidate, at: lowerBound)
+    if results.count > limit {
+      results.removeLast()
+    }
   }
 
   private static func parentPath(from textBeforeComponent: String) -> String {
@@ -105,9 +149,10 @@ public enum PathCompleter {
 
 extension String {
   fileprivate func hasLocalizedCaseInsensitivePrefix(_ prefix: String) -> Bool {
-    range(
-      of: prefix,
-      options: [.anchored, .caseInsensitive, .diacriticInsensitive]
-    ) != nil
+    prefix.isEmpty
+      || range(
+        of: prefix,
+        options: [.anchored, .caseInsensitive, .diacriticInsensitive]
+      ) != nil
   }
 }

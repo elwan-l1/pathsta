@@ -87,6 +87,51 @@ struct PathCompleterTests {
       #expect(relativeCompletions == ["Inside/"])
     }
   }
+
+  @Test("Caps completion results after sorting")
+  func capsSortedResults() throws {
+    try withCompletionDirectory { root in
+      for name in ["Zulu", "Alpha", "Echo", "Bravo"] {
+        try FileManager.default.createDirectory(
+          at: root.appending(path: name, directoryHint: .isDirectory),
+          withIntermediateDirectories: false
+        )
+      }
+
+      let completions = PathCompleter.directoryCompletions(
+        for: "",
+        selection: NSRange(location: 0, length: 0),
+        relativeTo: root,
+        maximumResults: 2
+      )
+      #expect(completions == ["Alpha/", "Bravo/"])
+    }
+  }
+
+  @Test("Returns no results once its task is cancelled")
+  func observesCancellation() async throws {
+    try await withCompletionDirectory { root in
+      try FileManager.default.createDirectory(
+        at: root.appending(path: "Alpha", directoryHint: .isDirectory),
+        withIntermediateDirectories: false
+      )
+      let (stream, continuation) = AsyncStream<Void>.makeStream()
+      let task = Task {
+        for await _ in stream {
+          break
+        }
+        return PathCompleter.directoryCompletions(
+          for: "",
+          selection: NSRange(location: 0, length: 0),
+          relativeTo: root
+        )
+      }
+      task.cancel()
+      continuation.yield()
+      continuation.finish()
+      #expect(await task.value == [])
+    }
+  }
 }
 
 private func withCompletionDirectory(_ operation: (URL) throws -> Void) throws {
@@ -97,4 +142,16 @@ private func withCompletionDirectory(_ operation: (URL) throws -> Void) throws {
   try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
   defer { try? FileManager.default.removeItem(at: root) }
   try operation(root)
+}
+
+private func withCompletionDirectory(
+  _ operation: (URL) async throws -> Void
+) async throws {
+  let root = FileManager.default.temporaryDirectory.appending(
+    path: "pathsta-completion-\(UUID().uuidString)",
+    directoryHint: .isDirectory
+  )
+  try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
+  defer { try? FileManager.default.removeItem(at: root) }
+  try await operation(root)
 }

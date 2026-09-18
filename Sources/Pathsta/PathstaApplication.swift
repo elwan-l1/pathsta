@@ -17,19 +17,25 @@ enum PathstaApplication {
 
   @MainActor
   private static func runCommandLineActionIfRequested() -> Bool {
-    if CommandLine.arguments.contains("--probe") {
-      probeFinder()
-      return true
-    }
-
-    guard
-      let argumentIndex = CommandLine.arguments.firstIndex(of: "--navigate"),
-      CommandLine.arguments.indices.contains(argumentIndex + 1)
-    else {
+    if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
       return false
     }
-    navigateFinder(to: CommandLine.arguments[argumentIndex + 1])
-    return true
+    switch PathstaCommandLine.parse(Array(CommandLine.arguments.dropFirst())) {
+    case .runApplication:
+      return false
+    case .probeFinder:
+      probeFinder()
+      return true
+    case .navigate(let path):
+      navigateFinder(to: path)
+      return true
+    case .help:
+      print(PathstaCommandLine.usage)
+      return true
+    case .invalid(let message):
+      writeStandardError("\(message)\n\n\(PathstaCommandLine.usage)")
+      exit(EXIT_FAILURE)
+    }
   }
 
   @MainActor
@@ -51,8 +57,8 @@ enum PathstaApplication {
       exit(EXIT_FAILURE)
     case .success(let directory):
       switch FinderBridge().navigate(to: directory) {
-      case .success:
-        print(directory.path)
+      case .success(let navigatedDirectory):
+        print(navigatedDirectory.path)
       case .failure(let error):
         writeStandardError("Navigation failed: \(error.localizedDescription)")
         exit(EXIT_FAILURE)

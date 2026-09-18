@@ -1,41 +1,13 @@
 import AppKit
-
-enum FinderLocation: Equatable {
-  case directory(URL)
-  case virtual(String)
-}
-
-struct FinderWindowState: Equatable {
-  let location: FinderLocation
-  let sidebarWidth: CGFloat
-}
-
-enum FinderBridgeError: LocalizedError, Equatable {
-  case noWindow
-  case virtualLocation(String)
-  case automationDenied(String)
-  case invalidReply
-  case navigationFailed(String)
-
-  var errorDescription: String? {
-    switch self {
-    case .noWindow:
-      "Open a Finder window to attach the path bar."
-    case .virtualLocation(let name):
-      "Finder › \(name) has no filesystem path."
-    case .automationDenied(let detail):
-      "Finder automation permission is required. \(detail)"
-    case .invalidReply:
-      "Finder returned an invalid folder path."
-    case .navigationFailed(let detail):
-      "Could not open that folder. \(detail)"
-    }
-  }
-}
+import PathstaCore
 
 /// Reads and changes Finder state through Finder's public AppleScript dictionary.
 @MainActor
 final class FinderBridge {
+  private static let appleScriptSuite: AEEventClass = 0x6173_6372  // 'ascr'
+  private static let subroutineEvent: AEEventID = 0x7073_6272  // 'psbr'
+  private static let subroutineNameKeyword: AEKeyword = 0x736E_616D  // 'snam'
+
   // Polling reuses this compiled script to avoid repeatedly paying AppleScript compilation cost.
   private let windowStateScript = NSAppleScript(
     source: """
@@ -52,6 +24,19 @@ final class FinderBridge {
       end tell
       """)
 
+  private let navigationScript = NSAppleScript(
+    source: """
+      on navigateTo(destinationFolder)
+        tell application "Finder"
+          if exists front Finder window then
+            set target of front Finder window to destinationFolder
+          else
+            open destinationFolder
+          end if
+        end tell
+      end navigateTo
+      """)
+
   func windowState() -> Result<FinderWindowState, FinderBridgeError> {
     guard let windowStateScript else {
       return .failure(.invalidReply)
@@ -62,30 +47,12 @@ final class FinderBridge {
     if errorDetails != nil {
       return .failure(.automationDenied(Self.describe(errorDetails)))
     }
-    guard reply.numberOfItems >= 2, let path = reply.atIndex(1)?.stringValue else {
+    guard reply.numberOfItems >= 2 else {
       return .failure(.invalidReply)
     }
-    guard !path.isEmpty else {
-      return .failure(.noWindow)
-    }
-
-    let sidebarWidth = max(0, CGFloat(reply.atIndex(2)?.int32Value ?? 0))
-    let virtualPrefix = "__PATHSTA_VIRTUAL__"
-    if path.hasPrefix(virtualPrefix) {
-      return .success(
-        FinderWindowState(
-          location: .virtual(String(path.dropFirst(virtualPrefix.count))),
-          sidebarWidth: sidebarWidth
-        )
-      )
-    }
-    return .success(
-      FinderWindowState(
-        location: .directory(
-          URL(filePath: path, directoryHint: .isDirectory).standardizedFileURL
-        ),
-        sidebarWidth: sidebarWidth
-      )
+    return FinderReplyParser.parse(
+      path: reply.atIndex(1)?.stringValue,
+      sidebarWidth: reply.atIndex(2)?.int32Value
     )
   }
 
@@ -103,38 +70,97 @@ final class FinderBridge {
     }
   }
 
-  func navigate(to directory: URL) -> Result<Void, FinderBridgeError> {
-    let pathLiteral = Self.appleScriptLiteral(directory.path)
-    let source = """
-      tell application "Finder"
-        set destinationFolder to (POSIX file \(pathLiteral)) as alias
-        if exists front Finder window then
-          set target of front Finder window to destinationFolder
-        else
-          open destinationFolder
-        end if
-      end tell
-      """
-    guard let script = NSAppleScript(source: source) else {
+  func navigate(
+    to directory: URL,
+    fileReferenceData: Data? = nil
+  ) -> Result<URL, FinderBridgeError> {
+    guard let navigationScript else {
       return .failure(.navigationFailed("The navigation command could not be compiled."))
     }
 
+    let targetDescriptor: NSAppleEventDescriptor?
+    let bookmark: Data?
+    if let fileReferenceData {
+      bookmark = nil
+      targetDescriptor = NSAppleEventDescriptor(
+        descriptorType: DescType(typeFileURL),
+        data: fileReferenceData
+      )
+    } else {
+      do {
+        let generatedBookmark = try Self.bookmarkData(for: directory)
+        bookmark = generatedBookmark
+        targetDescriptor = NSAppleEventDescriptor(
+          descriptorType: DescType(typeBookmarkData),
+          data: generatedBookmark
+        )
+      } catch {
+        return .failure(.navigationFailed(error.localizedDescription))
+      }
+    }
+    guard let targetDescriptor else {
+      return .failure(.navigationFailed("The navigation target could not be encoded."))
+    }
+    let event = Self.navigationEvent(argument: targetDescriptor)
     var errorDetails: NSDictionary?
-    _ = script.executeAndReturnError(&errorDetails)
+    _ = navigationScript.executeAppleEvent(event, error: &errorDetails)
     guard errorDetails == nil else {
       return .failure(.navigationFailed(Self.describe(errorDetails)))
     }
-    return .success(())
+    if let fileReferenceData,
+      let resolved = CreatedDirectory(
+        url: directory,
+        fileReferenceData: fileReferenceData
+      ).resolvedURL()
+    {
+      return .success(resolved)
+    }
+    guard let bookmark else {
+      return .failure(.navigationFailed("The navigation target could not be resolved."))
+    }
+    do {
+      return .success(try Self.resolveBookmark(bookmark))
+    } catch {
+      return .failure(.navigationFailed(error.localizedDescription))
+    }
   }
 
-  private static func appleScriptLiteral(_ value: String) -> String {
-    let escapedValue =
-      value
-      .replacingOccurrences(of: "\\", with: "\\\\")
-      .replacingOccurrences(of: "\"", with: "\\\"")
-      .replacingOccurrences(of: "\r", with: "\\r")
-      .replacingOccurrences(of: "\n", with: "\\n")
-    return "\"\(escapedValue)\""
+  static func bookmarkData(for directory: URL) throws -> Data {
+    try directory.bookmarkData(
+      options: [.minimalBookmark],
+      includingResourceValuesForKeys: nil,
+      relativeTo: nil
+    )
+  }
+
+  static func resolveBookmark(_ bookmark: Data) throws -> URL {
+    var isStale = false
+    return try URL(
+      resolvingBookmarkData: bookmark,
+      options: [.withoutUI],
+      relativeTo: nil,
+      bookmarkDataIsStale: &isStale
+    )
+  }
+
+  private static func navigationEvent(
+    argument: NSAppleEventDescriptor
+  ) -> NSAppleEventDescriptor {
+    let event = NSAppleEventDescriptor(
+      eventClass: appleScriptSuite,
+      eventID: subroutineEvent,
+      targetDescriptor: .null(),
+      returnID: AEReturnID(kAutoGenerateReturnID),
+      transactionID: AETransactionID(kAnyTransactionID)
+    )
+    event.setParam(
+      NSAppleEventDescriptor(string: "navigateTo"),
+      forKeyword: subroutineNameKeyword
+    )
+    let arguments = NSAppleEventDescriptor.list()
+    arguments.insert(argument, at: 1)
+    event.setParam(arguments, forKeyword: AEKeyword(keyDirectObject))
+    return event
   }
 
   private static func describe(_ details: NSDictionary?) -> String {

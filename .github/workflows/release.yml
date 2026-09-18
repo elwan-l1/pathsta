@@ -85,12 +85,6 @@ jobs:
     environment: release-signing
     permissions:
       contents: read
-    env:
-      SIGNING_CERT_P12: ${{ secrets.SIGNING_CERT_P12 }}
-      SIGNING_CERT_PASSWORD: ${{ secrets.SIGNING_CERT_PASSWORD }}
-      NOTARY_API_KEY_P8: ${{ secrets.NOTARY_API_KEY_P8 }}
-      NOTARY_KEY_ID: ${{ secrets.NOTARY_KEY_ID }}
-      NOTARY_ISSUER_ID: ${{ secrets.NOTARY_ISSUER_ID }}
     steps:
       - name: Check out validated commit
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -111,6 +105,9 @@ jobs:
         run: brew install xcodegen jq
 
       - name: Import Developer ID certificate
+        env:
+          SIGNING_CERT_P12: ${{ secrets.SIGNING_CERT_P12 }}
+          SIGNING_CERT_PASSWORD: ${{ secrets.SIGNING_CERT_PASSWORD }}
         run: Scripts/release/setup-signing.sh
 
       - name: Build and sign app
@@ -120,12 +117,20 @@ jobs:
           "${{ needs.preflight.outputs.build-number }}"
 
       - name: Notarize and staple app
+        env:
+          NOTARY_API_KEY_P8: ${{ secrets.NOTARY_API_KEY_P8 }}
+          NOTARY_KEY_ID: ${{ secrets.NOTARY_KEY_ID }}
+          NOTARY_ISSUER_ID: ${{ secrets.NOTARY_ISSUER_ID }}
         run: Scripts/release/notarize.sh .build/release/Pathsta.app
 
       - name: Create and sign disk image
         run: Scripts/release/make-dmg.sh "${{ needs.preflight.outputs.version }}"
 
       - name: Notarize and staple disk image
+        env:
+          NOTARY_API_KEY_P8: ${{ secrets.NOTARY_API_KEY_P8 }}
+          NOTARY_KEY_ID: ${{ secrets.NOTARY_KEY_ID }}
+          NOTARY_ISSUER_ID: ${{ secrets.NOTARY_ISSUER_ID }}
         run: >-
           Scripts/release/notarize.sh
           ".build/release/dist/Pathsta-${{ needs.preflight.outputs.version }}.dmg"
