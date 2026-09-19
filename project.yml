@@ -11,6 +11,11 @@ configs:
   Debug: debug
   Release: release
 
+packages:
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    exactVersion: 2.10.0
+
 settings:
   base:
     CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
@@ -83,6 +88,7 @@ targets:
         buildPhase: resources
     dependencies:
       - target: PathstaCore
+      - package: Sparkle
     entitlements:
       path: Resources/Pathsta.entitlements
       properties:
@@ -99,6 +105,13 @@ targets:
         LSUIElement: true
         NSAppleEventsUsageDescription: Pathsta reads and changes the folder shown by the active Finder window.
         NSHumanReadableCopyright: Copyright © 2026 Elwan Mayencourt. All rights reserved.
+        SUAllowsAutomaticUpdates: false
+        SUAutomaticallyUpdate: false
+        SUEnableAutomaticChecks: false
+        SUFeedURL: https://github.com/elwan-l1/pathsta/releases/latest/download/appcast.xml
+        SUPublicEDKey: 9TznX86q/BzyskCGcSxaOpXPIq5bE77bD/5f0Ji+vM4=
+        SURequireSignedFeed: true
+        SUVerifyUpdateBeforeExtraction: true
     settings:
       base:
         ASSETCATALOG_COMPILER_APPICON_NAME: PathstaAppIcon
@@ -108,7 +121,7 @@ targets:
         DEVELOPMENT_TEAM: K85JVL5Z98
         ENABLE_HARDENED_RUNTIME: YES
         GENERATE_INFOPLIST_FILE: NO
-        MARKETING_VERSION: 1.0.0
+        MARKETING_VERSION: 1.0.1
         MACOSX_DEPLOYMENT_TARGET: "27.0"
         PRODUCT_BUNDLE_IDENTIFIER: ch.codevs.pathsta
         PRODUCT_MODULE_NAME: Pathsta

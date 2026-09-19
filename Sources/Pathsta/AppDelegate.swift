@@ -1,6 +1,7 @@
 import AppKit
 import OSLog
 import PathstaCore
+import Sparkle
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate, PathEditorViewDelegate,
@@ -36,6 +37,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PathEditorViewDelegate
   private let panel = PathOverlayPanel()
   private let pathEditor = PathEditorView()
   private let preferences = PathstaPreferences()
+  private let updaterController = SPUStandardUpdaterController(
+    startingUpdater: true,
+    updaterDelegate: nil,
+    userDriverDelegate: nil
+  )
 
   private var pollTimer: Timer?
   private var globalMouseMonitor: Any?
@@ -155,7 +161,9 @@ extension AppDelegate {
     statusItemController = StatusItemController(
       delegate: self,
       errorSoundEnabled: pathEditor.playsErrorSound,
-      directoryCreationEnabled: pathEditor.allowsDirectoryCreation
+      directoryCreationEnabled: pathEditor.allowsDirectoryCreation,
+      checkForUpdatesTarget: updaterController,
+      checkForUpdatesAction: #selector(SPUStandardUpdaterController.checkForUpdates(_:))
     )
   }
 
