@@ -17,6 +17,8 @@
   <img src="docs/assets/readme/pathsta.png" width="900" alt="Click Finder's path bar to edit the current path with Pathsta">
 </p>
 
+> ⚠️ Pathsta has been entirely written by [Codex](https://openai.com/codex/) using GPT-5.6 Sol High. The project idea, guidance, and logo are mine.
+
 Click Finder's path bar, type or paste a path and press Return. Pathsta follows the active Finder window, supports Tab completion and stays out of the way when you click elsewhere.
 
 Pathsta requires macOS 27 or later. The reusable core remains tested on macOS 14, but the Finder integration and interface are supported only on macOS 27 and later.
@@ -27,6 +29,7 @@ Pathsta requires macOS 27 or later. The reusable core remains tested on macOS 14
 - **Safe folder creation:** Press Shift-Return to create one missing folder and navigate to it. Can be disabled from the menu bar.
 - **Not found feedback:** Play a sound when a path cannot be found. Can be disabled from the menu bar.
 - **Live synchronization:** The field follows the active Finder window and updates when its location changes.
+- **Manual updates:** Check for and securely install signed releases from the menu bar. Pathsta never checks or downloads updates in the background.
 
 ## Install
 

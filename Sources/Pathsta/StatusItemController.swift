@@ -17,17 +17,25 @@ final class StatusItemController: NSObject {
   private let errorSoundMenuItem = NSMenuItem()
   private let directoryCreationMenuItem = NSMenuItem()
 
+  var menu: NSMenu? {
+    statusItem.menu
+  }
+
   init(
     delegate: StatusItemControllerDelegate,
     errorSoundEnabled: Bool,
-    directoryCreationEnabled: Bool
+    directoryCreationEnabled: Bool,
+    checkForUpdatesTarget: AnyObject,
+    checkForUpdatesAction: Selector
   ) {
     self.delegate = delegate
     super.init()
     configureButton()
     configureMenu(
       errorSoundEnabled: errorSoundEnabled,
-      directoryCreationEnabled: directoryCreationEnabled
+      directoryCreationEnabled: directoryCreationEnabled,
+      checkForUpdatesTarget: checkForUpdatesTarget,
+      checkForUpdatesAction: checkForUpdatesAction
     )
   }
 
@@ -61,7 +69,9 @@ final class StatusItemController: NSObject {
 
   private func configureMenu(
     errorSoundEnabled: Bool,
-    directoryCreationEnabled: Bool
+    directoryCreationEnabled: Bool,
+    checkForUpdatesTarget: AnyObject,
+    checkForUpdatesAction: Selector
   ) {
     let menu = NSMenu()
     let heading = NSMenuItem(title: "Pathsta", action: nil, keyEquivalent: "")
@@ -87,6 +97,13 @@ final class StatusItemController: NSObject {
     menu.addItem(
       menuItem(title: "Automation Settings…", action: #selector(openAutomationSettings))
     )
+    let checkForUpdatesItem = NSMenuItem(
+      title: "Check for Updates…",
+      action: checkForUpdatesAction,
+      keyEquivalent: ""
+    )
+    checkForUpdatesItem.target = checkForUpdatesTarget
+    menu.addItem(checkForUpdatesItem)
     menu.addItem(.separator())
 
     let quitItem = NSMenuItem(

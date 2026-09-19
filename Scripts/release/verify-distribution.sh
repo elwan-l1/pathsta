@@ -62,6 +62,23 @@ actual_build="$(defaults read "${mounted_app}/Contents/Info" CFBundleVersion)"
 [[ "${actual_version}" == "${version}" ]] || fail "Distributed app version is ${actual_version}, expected ${version}"
 [[ "${actual_build}" == "${build_number}" ]] || fail "Distributed app build is ${actual_build}, expected ${build_number}"
 
+[[ "$(defaults read "${mounted_app}/Contents/Info" SUFeedURL)" == "${SPARKLE_FEED_URL}" ]] || \
+  fail "Distributed app has an unexpected Sparkle feed URL"
+[[ "$(defaults read "${mounted_app}/Contents/Info" SUPublicEDKey)" == "${SPARKLE_PUBLIC_KEY}" ]] || \
+  fail "Distributed app has an unexpected Sparkle public key"
+for disabled_setting in SUAllowsAutomaticUpdates SUAutomaticallyUpdate SUEnableAutomaticChecks; do
+  [[ "$(defaults read "${mounted_app}/Contents/Info" "${disabled_setting}")" == "0" ]] || \
+    fail "Distributed app must disable ${disabled_setting}"
+done
+for enabled_setting in SURequireSignedFeed SUVerifyUpdateBeforeExtraction; do
+  [[ "$(defaults read "${mounted_app}/Contents/Info" "${enabled_setting}")" == "1" ]] || \
+    fail "Distributed app must enable ${enabled_setting}"
+done
+
+sparkle_framework="${mounted_app}/Contents/Frameworks/Sparkle.framework"
+[[ -d "${sparkle_framework}" ]] || fail "Distributed app does not contain Sparkle.framework"
+codesign --verify --deep --strict --verbose=2 "${sparkle_framework}"
+
 expected_architectures="${RELEASE_ARCHITECTURES:-arm64}"
 actual_architectures="$(lipo -archs "${mounted_app}/Contents/MacOS/${APP_NAME}")"
 for architecture in ${expected_architectures}; do

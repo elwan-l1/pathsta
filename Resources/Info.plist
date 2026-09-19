@@ -30,5 +30,19 @@
 	<string>Pathsta reads and changes the folder shown by the active Finder window.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2026 Elwan Mayencourt. All rights reserved.</string>
+	<key>SUAllowsAutomaticUpdates</key>
+	<false/>
+	<key>SUAutomaticallyUpdate</key>
+	<false/>
+	<key>SUEnableAutomaticChecks</key>
+	<false/>
+	<key>SUFeedURL</key>
+	<string>https://github.com/elwan-l1/pathsta/releases/latest/download/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>9TznX86q/BzyskCGcSxaOpXPIq5bE77bD/5f0Ji+vM4=</string>
+	<key>SURequireSignedFeed</key>
+	<true/>
+	<key>SUVerifyUpdateBeforeExtraction</key>
+	<true/>
 </dict>
 </plist>

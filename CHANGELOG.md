@@ -4,9 +4,11 @@ All notable changes to Pathsta are documented here.
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-09-19
+
 ### Added
 
-- Documented command-line diagnostics and added regression and UI smoke tests.
+- Added secure, user-initiated updates from signed GitHub releases.
 
 ### Changed
 

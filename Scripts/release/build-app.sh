@@ -36,6 +36,7 @@ xcodebuild archive \
   -scheme "${SCHEME}" \
   -configuration Release \
   -archivePath "${ARCHIVE_PATH}" \
+  -clonedSourcePackagesDirPath "${RELEASE_ROOT}/SourcePackages" \
   -destination 'generic/platform=macOS' \
   CODE_SIGNING_ALLOWED=NO \
   CURRENT_PROJECT_VERSION="${build_number}" \
@@ -50,12 +51,31 @@ archived_app="${ARCHIVE_PATH}/Products/Applications/${APP_NAME}.app"
 ditto --norsrc "${archived_app}" "${APP_PATH}"
 xattr -cr "${APP_PATH}"
 
-codesign_arguments=(--force --options runtime --generate-entitlement-der --sign "${signing_identity}")
-if [[ "${signing_identity}" != "-" ]]; then
-  codesign_arguments+=(--timestamp)
-fi
-codesign_arguments+=(--entitlements "${REPOSITORY_ROOT}/Resources/Pathsta.entitlements" "${APP_PATH}")
-codesign "${codesign_arguments[@]}"
+sign_component() {
+  local component="$1"
+  shift
+  [[ -e "${component}" ]] || fail "Code-signing component is missing: ${component}"
+
+  local arguments=(--force --options runtime --generate-entitlement-der --sign "${signing_identity}")
+  if [[ "${signing_identity}" != "-" ]]; then
+    arguments+=(--timestamp)
+  fi
+  arguments+=("$@" "${component}")
+  codesign "${arguments[@]}"
+}
+
+# Sparkle contains nested executables that must be signed from the inside out.
+# Do not use --deep for signing: Downloader.xpc carries its own entitlements.
+sparkle_framework="${APP_PATH}/Contents/Frameworks/Sparkle.framework"
+sparkle_version="${sparkle_framework}/Versions/B"
+sign_component "${sparkle_version}/XPCServices/Installer.xpc"
+sign_component "${sparkle_version}/XPCServices/Downloader.xpc" \
+  --preserve-metadata=entitlements
+sign_component "${sparkle_version}/Autoupdate"
+sign_component "${sparkle_version}/Updater.app"
+sign_component "${sparkle_framework}"
+sign_component "${APP_PATH}" \
+  --entitlements "${REPOSITORY_ROOT}/Resources/Pathsta.entitlements"
 codesign --verify --deep --strict --verbose=2 "${APP_PATH}"
 
 actual_version="$(defaults read "${APP_PATH}/Contents/Info" CFBundleShortVersionString)"

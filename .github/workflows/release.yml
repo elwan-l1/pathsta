@@ -144,6 +144,14 @@ jobs:
             "${{ needs.preflight.outputs.version }}" \
             "${{ needs.preflight.outputs.build-number }}"
 
+      - name: Generate signed update feed
+        env:
+          SPARKLE_EDDSA_PRIVATE_KEY: ${{ secrets.SPARKLE_EDDSA_PRIVATE_KEY }}
+        run: >-
+          Scripts/release/generate-appcast.sh
+          "${{ needs.preflight.outputs.version }}"
+          "${{ needs.preflight.outputs.build-number }}"
+
       - name: Upload short-lived release payload
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
@@ -198,6 +206,7 @@ jobs:
           gh release create "${GITHUB_REF_NAME}" \
             "dist/Pathsta-${version}.dmg" \
             "dist/Pathsta-${version}.dSYM.zip" \
+            "dist/appcast.xml" \
             "dist/SHA256SUMS" \
             --draft \
             --verify-tag \
