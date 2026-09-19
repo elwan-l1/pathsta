@@ -34,17 +34,6 @@ Download Pathsta from [Releases](https://github.com/elwan-l1/pathsta/releases).
 
 Open Pathsta and allow Finder automation when macOS asks. Initial releases support Apple silicon.
 
-### Command-line diagnostics
-
-The app executable also exposes two small, supported diagnostic commands:
-
-```sh
-/Applications/Pathsta.app/Contents/MacOS/Pathsta --probe
-/Applications/Pathsta.app/Contents/MacOS/Pathsta --navigate "/absolute/folder/path"
-```
-
-`--probe` prints Finder's current local directory. `--navigate` opens the supplied existing directory in Finder. Both return a nonzero status and write an explanation to standard error on failure; `--help` prints the complete usage.
-
 ### Security and privacy
 
 Pathsta uses Hardened Runtime and requests only Finder Automation permission. It is deliberately not App Sandbox-enabled because its core purpose is navigating to arbitrary Finder paths. Directory reads and folder creation therefore run with the signed-in user's normal filesystem permissions. Folder creation is limited to one missing leaf beneath an existing directory and never creates intermediate folders.

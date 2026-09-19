@@ -13,7 +13,6 @@
 		1D0FB086D2517234E06AEA6F /* DirectoryCreatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E4FCFFBFA97006693641FD /* DirectoryCreatorTests.swift */; };
 		22BFC8B6B774A222ED871929 /* PathCompleterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0155F567A9A0DC7EDCD269C /* PathCompleterTests.swift */; };
 		27B8FAA7896E268E645CB399 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD204AAE2BCBE66E96199EBB /* Assets.xcassets */; };
-		29158424D54A5B364437AEED /* PathstaCommandLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674E5D62C81A6EF89E3EE3B2 /* PathstaCommandLine.swift */; };
 		3CD0FC36C76141CE12597991 /* PathOverlayPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B4E0348C558E7E21DDC4A2 /* PathOverlayPanel.swift */; };
 		422FCCAB45D50C751DF9F990 /* WindowGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223B9517521CBF8F5BB2A354 /* WindowGeometry.swift */; };
 		552A8FEEDFE731D1F19D37B5 /* PathCompleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8320979D042809980F0EC14A /* PathCompleter.swift */; };
@@ -28,7 +27,6 @@
 		8F9FC64F229F7AB46A03D97F /* PathResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4327620A87CB13E83E001A7 /* PathResolver.swift */; };
 		936F493B0D16B01F360368EE /* PathEditorControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35F67FAE00F19D324BC9128 /* PathEditorControls.swift */; };
 		9DEF19C02805B5651D383750 /* PathResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721C296673A5FE51BAF35D7 /* PathResolverTests.swift */; };
-		A45422B203DFD5BACB554D16 /* PathstaCommandLineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E01D1EB9F91B70A0466F978 /* PathstaCommandLineTests.swift */; };
 		A5388ED5B42987C428A7A27B /* libPathstaCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 084CC98F285332DB302D2EE4 /* libPathstaCore.a */; };
 		A7E730F3D4202F9091969178 /* PathCompletionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48076F037472CD1C4D50FBF /* PathCompletionController.swift */; };
 		B2210289FE0C75658403C0EC /* FinderBridgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F4F4EC3DF9FE0D03F8DEB4 /* FinderBridgeTests.swift */; };
@@ -82,13 +80,11 @@
 		56F4F4EC3DF9FE0D03F8DEB4 /* FinderBridgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderBridgeTests.swift; sourceTree = "<group>"; };
 		5AFBE166E61D475317ADEE4D /* StatusItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemController.swift; sourceTree = "<group>"; };
 		61F11AB2DF222C5554D51A2E /* FinderAutomationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderAutomationTests.swift; sourceTree = "<group>"; };
-		674E5D62C81A6EF89E3EE3B2 /* PathstaCommandLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathstaCommandLine.swift; sourceTree = "<group>"; };
 		8320979D042809980F0EC14A /* PathCompleter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCompleter.swift; sourceTree = "<group>"; };
 		868822C747A56277AB2F175F /* PathCompletionControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCompletionControllerTests.swift; sourceTree = "<group>"; };
 		87C2C8BEF80F8C95EC1D2424 /* PathstaAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PathstaAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97355454DB2E1B582C20904D /* Pathsta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pathsta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97AF0EE9B1DC36D7617FC803 /* PathEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathEditorView.swift; sourceTree = "<group>"; };
-		9E01D1EB9F91B70A0466F978 /* PathstaCommandLineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathstaCommandLineTests.swift; sourceTree = "<group>"; };
 		A0155F567A9A0DC7EDCD269C /* PathCompleterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCompleterTests.swift; sourceTree = "<group>"; };
 		A6FF33739907D18D1531EEB9 /* FinderWindowLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderWindowLocator.swift; sourceTree = "<group>"; };
 		AD204AAE2BCBE66E96199EBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -128,7 +124,6 @@
 				08DE643B8E08780C96FB0FAD /* LocalFileURL.swift */,
 				8320979D042809980F0EC14A /* PathCompleter.swift */,
 				E4327620A87CB13E83E001A7 /* PathResolver.swift */,
-				674E5D62C81A6EF89E3EE3B2 /* PathstaCommandLine.swift */,
 				CE76739E3AD0D5A483E09774 /* PathstaPreferences.swift */,
 				223B9517521CBF8F5BB2A354 /* WindowGeometry.swift */,
 			);
@@ -151,7 +146,6 @@
 				61F11AB2DF222C5554D51A2E /* FinderAutomationTests.swift */,
 				A0155F567A9A0DC7EDCD269C /* PathCompleterTests.swift */,
 				1721C296673A5FE51BAF35D7 /* PathResolverTests.swift */,
-				9E01D1EB9F91B70A0466F978 /* PathstaCommandLineTests.swift */,
 				E79034D02969E891810E63DA /* PathstaPreferencesTests.swift */,
 				063B5463DDF3E6543B1700BE /* WindowGeometryTests.swift */,
 			);
@@ -366,7 +360,6 @@
 				6485A6F258E8323F05AF1926 /* FinderAutomationTests.swift in Sources */,
 				22BFC8B6B774A222ED871929 /* PathCompleterTests.swift in Sources */,
 				9DEF19C02805B5651D383750 /* PathResolverTests.swift in Sources */,
-				A45422B203DFD5BACB554D16 /* PathstaCommandLineTests.swift in Sources */,
 				E349668CC08AF105428FDE97 /* PathstaPreferencesTests.swift in Sources */,
 				D627DD02521B4413691CF7F1 /* WindowGeometryTests.swift in Sources */,
 			);
@@ -381,7 +374,6 @@
 				8A494A753F3D53E686165E5A /* LocalFileURL.swift in Sources */,
 				552A8FEEDFE731D1F19D37B5 /* PathCompleter.swift in Sources */,
 				8F9FC64F229F7AB46A03D97F /* PathResolver.swift in Sources */,
-				29158424D54A5B364437AEED /* PathstaCommandLine.swift in Sources */,
 				5F7EFB786BBBDDB2DFDAE836 /* PathstaPreferences.swift in Sources */,
 				422FCCAB45D50C751DF9F990 /* WindowGeometry.swift in Sources */,
 			);
