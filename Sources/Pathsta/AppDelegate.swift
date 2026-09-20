@@ -1,6 +1,7 @@
 import AppKit
 import OSLog
 import PathstaCore
+import ServiceManagement
 import Sparkle
 
 @MainActor
@@ -37,6 +38,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PathEditorViewDelegate
   private let panel = PathOverlayPanel()
   private let pathEditor = PathEditorView()
   private let preferences = PathstaPreferences()
+  private let launchAtLoginService = SMAppService.mainApp
   private let updaterController = SPUStandardUpdaterController(
     startingUpdater: true,
     updaterDelegate: nil,
@@ -56,6 +58,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PathEditorViewDelegate
   func applicationDidFinishLaunching(_ notification: Notification) {
     configureProcessLifetime()
     configurePreferences()
+    configureLaunchAtLogin()
     configureOverlay()
     configureStatusItem()
     observeActiveApplication()
@@ -132,6 +135,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PathEditorViewDelegate
     preferences.allowsDirectoryCreation = isEnabled
   }
 
+  func statusItemDidSetLaunchAtLoginEnabled(_ isEnabled: Bool) -> Bool {
+    preferences.launchAtLogin = isEnabled
+
+    do {
+      if isEnabled {
+        if launchAtLoginService.status == .requiresApproval {
+          SMAppService.openSystemSettingsLoginItems()
+        } else if launchAtLoginService.status != .enabled {
+          try launchAtLoginService.register()
+        }
+      } else if launchAtLoginService.status != .notRegistered {
+        try launchAtLoginService.unregister()
+      }
+    } catch {
+      Self.logger.error("Could not update launch at login: \(error.localizedDescription)")
+    }
+
+    return launchAtLoginService.status == .enabled
+  }
+
   @objc private func activeApplicationChanged(_ notification: Notification) {
     updateActiveApplication(forcePath: true)
   }
@@ -152,6 +175,19 @@ extension AppDelegate {
     pathEditor.allowsDirectoryCreation = preferences.allowsDirectoryCreation
   }
 
+  private func configureLaunchAtLogin() {
+    guard preferences.launchAtLogin, launchAtLoginService.status == .notRegistered else {
+      return
+    }
+
+    do {
+      try launchAtLoginService.register()
+      Self.logger.info("Registered Pathsta to launch at login")
+    } catch {
+      Self.logger.error("Could not register launch at login: \(error.localizedDescription)")
+    }
+  }
+
   private func configureOverlay() {
     panel.contentView = pathEditor
     pathEditor.delegate = self
@@ -162,6 +198,7 @@ extension AppDelegate {
       delegate: self,
       errorSoundEnabled: pathEditor.playsErrorSound,
       directoryCreationEnabled: pathEditor.allowsDirectoryCreation,
+      launchAtLoginEnabled: launchAtLoginService.status == .enabled,
       checkForUpdatesTarget: updaterController,
       checkForUpdatesAction: #selector(SPUStandardUpdaterController.checkForUpdates(_:))
     )

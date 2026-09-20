@@ -15,6 +15,7 @@ struct StatusItemControllerTests {
       delegate: delegate,
       errorSoundEnabled: true,
       directoryCreationEnabled: false,
+      launchAtLoginEnabled: true,
       checkForUpdatesTarget: updateTarget,
       checkForUpdatesAction: #selector(UpdateCheckTarget.checkForUpdates(_:))
     )
@@ -30,6 +31,11 @@ struct StatusItemControllerTests {
     let quitIndex = try #require(menu.items.firstIndex { $0.title == "Quit Pathsta" })
     #expect(menu.items[updateIndex + 1].isSeparatorItem)
     #expect(updateIndex + 2 == quitIndex)
+
+    let launchAtLoginItem = try #require(
+      menu.items.first { $0.title == "Launch at Login" }
+    )
+    #expect(launchAtLoginItem.state == .on)
   }
 }
 
@@ -40,6 +46,10 @@ private final class StatusItemDelegateSpy: StatusItemControllerDelegate {
   func statusItemDidSetErrorSoundEnabled(_ isEnabled: Bool) {}
 
   func statusItemDidSetDirectoryCreationEnabled(_ isEnabled: Bool) {}
+
+  func statusItemDidSetLaunchAtLoginEnabled(_ isEnabled: Bool) -> Bool {
+    isEnabled
+  }
 }
 
 @MainActor

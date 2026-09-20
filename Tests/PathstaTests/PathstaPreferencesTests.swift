@@ -8,6 +8,7 @@ struct PathstaPreferencesTests {
   func defaultValues() throws {
     try withPreferences { preferences in
       #expect(preferences.allowsDirectoryCreation)
+      #expect(preferences.launchAtLogin)
       #expect(preferences.playsErrorSound)
     }
   }
@@ -22,6 +23,9 @@ struct PathstaPreferencesTests {
       preferences.playsErrorSound = false
       #expect(!preferences.allowsDirectoryCreation)
       #expect(!preferences.playsErrorSound)
+
+      preferences.launchAtLogin = false
+      #expect(!preferences.launchAtLogin)
     }
   }
 }

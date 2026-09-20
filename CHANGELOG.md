@@ -4,6 +4,16 @@ All notable changes to Pathsta are documented here.
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-09-21
+
+### Added
+
+- Launch Pathsta automatically after sign-in (can be disabled from the menu bar).
+
+### Security
+
+- Added a [Security Policy](SECURITY.md).
+
 ## [1.0.1] - 2026-09-19
 
 ### Added

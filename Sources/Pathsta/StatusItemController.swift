@@ -5,6 +5,7 @@ protocol StatusItemControllerDelegate: AnyObject {
   func statusItemDidRequestAutomationSettings()
   func statusItemDidSetErrorSoundEnabled(_ isEnabled: Bool)
   func statusItemDidSetDirectoryCreationEnabled(_ isEnabled: Bool)
+  func statusItemDidSetLaunchAtLoginEnabled(_ isEnabled: Bool) -> Bool
 }
 
 @MainActor
@@ -16,6 +17,7 @@ final class StatusItemController: NSObject {
   )
   private let errorSoundMenuItem = NSMenuItem()
   private let directoryCreationMenuItem = NSMenuItem()
+  private let launchAtLoginMenuItem = NSMenuItem()
 
   var menu: NSMenu? {
     statusItem.menu
@@ -25,6 +27,7 @@ final class StatusItemController: NSObject {
     delegate: StatusItemControllerDelegate,
     errorSoundEnabled: Bool,
     directoryCreationEnabled: Bool,
+    launchAtLoginEnabled: Bool,
     checkForUpdatesTarget: AnyObject,
     checkForUpdatesAction: Selector
   ) {
@@ -34,6 +37,7 @@ final class StatusItemController: NSObject {
     configureMenu(
       errorSoundEnabled: errorSoundEnabled,
       directoryCreationEnabled: directoryCreationEnabled,
+      launchAtLoginEnabled: launchAtLoginEnabled,
       checkForUpdatesTarget: checkForUpdatesTarget,
       checkForUpdatesAction: checkForUpdatesAction
     )
@@ -55,6 +59,12 @@ final class StatusItemController: NSObject {
     delegate?.statusItemDidRequestAutomationSettings()
   }
 
+  @objc private func toggleLaunchAtLogin() {
+    let requestedState = launchAtLoginMenuItem.state != .on
+    let enabled = delegate?.statusItemDidSetLaunchAtLoginEnabled(requestedState) ?? false
+    launchAtLoginMenuItem.state = enabled ? .on : .off
+  }
+
   private func configureButton() {
     let image =
       NSImage(named: "MenuBarIcon")
@@ -70,6 +80,7 @@ final class StatusItemController: NSObject {
   private func configureMenu(
     errorSoundEnabled: Bool,
     directoryCreationEnabled: Bool,
+    launchAtLoginEnabled: Bool,
     checkForUpdatesTarget: AnyObject,
     checkForUpdatesAction: Selector
   ) {
@@ -94,6 +105,13 @@ final class StatusItemController: NSObject {
       isEnabled: directoryCreationEnabled
     )
     menu.addItem(directoryCreationMenuItem)
+    configureToggleItem(
+      launchAtLoginMenuItem,
+      title: "Launch at Login",
+      action: #selector(toggleLaunchAtLogin),
+      isEnabled: launchAtLoginEnabled
+    )
+    menu.addItem(launchAtLoginMenuItem)
     menu.addItem(
       menuItem(title: "Automation Settings…", action: #selector(openAutomationSettings))
     )
