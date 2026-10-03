@@ -54,7 +54,7 @@ make open
 
 ## Contributing
 
-Issues and pull requests are welcome, especially compatibility fixes for other macOS versions. Please run `make verify` before submitting a change.
+Issues and pull requests are welcome, especially compatibility fixes for other macOS versions. See [CONTRIBUTING.md](CONTRIBUTING.md) and run `make verify` before submitting a change.
 
 ## License
 
